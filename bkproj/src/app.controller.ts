@@ -93,7 +93,7 @@ export class AppController {
     console.log("updating this")
     //console.log(obj)
     try {
-      if (file.filename && file.originalname) {
+      if (file && file.originalname) {
         obj.file = file.filename
       }
       let tok = auth.split(" ")[1]

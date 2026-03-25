@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Style from "./FormUser.module.css"
 import Field from "../Field/Field";
 import ImgInput from "../imgInput/ImgInput";
 export default function FormUser() {
-    const [obj, setObj] = useState({ role: "user" })
+    const [obj, setObj] = useState({name:null,password:null, role: "user" })
     let [file, setFile] = useState()
+    let [error,setError] = useState({})
+    //let [isValid,SetIsValid] = useState(false)
+    let valref = useRef(false)
     async function submitFunc(e) {
         e.preventDefault()
         console.log(obj)
@@ -23,7 +26,6 @@ export default function FormUser() {
             },
             method: "POST",
             body: formData
-            //body: JSON.stringify(obj)
         }).then((e) => e.json())
         console.log(response)
 
@@ -37,17 +39,83 @@ export default function FormUser() {
         }).then((e)=>e.json())
         console.log(response)*/
     }
+    function checkFunction(checkOne,fieldName){
+        let valid = true
+        //console.log("here start hecking "+checkOne);
+        Object.keys(obj).forEach((el,i)=>{
+            //console.log(checkOne ? el == fieldName : obj[el] )
+            if(checkOne ? el == fieldName && obj[el] : obj[el] ){
+                //console.log("the selected is "+el)
+                setError(prev => ({...prev,[el]:""}))
+                if(el == "password"){
+                    let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&]).{5,}$/ 
+                    //^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{5,11}$/
+                    if(!reg.test(obj[el])){
+                        setError(prev => ({...prev,[el]:"senha fraca"}))
+                        valid = false
+                    }
+                }
+            }else{
+                if(!checkOne ? true : el == fieldName){
+                    setError(prev => ({...prev,[el]:"nao pode ser nulo"}))
+                    console.log("nullable "+el)
+                    valid = false
+                }
+            }
+        })
+        if(!checkOne){
+            if(!checkFile()){
+                valid = false
+            }
+        }
+        if(!checkOne){
+            //SetIsValid(valid)
+            valref.current = valid
+            //console.log("checking if it is valid "+valid)
+            //console.log(isValid)
+        }
+    }
+    function checkFile(){
+        if(!file){
+            setError(prev => ({...prev,"file":"imagem nao pode ser nulo"}))
+            return false
+        }else{
+            setError(prev => ({...prev,"file":""}))
+            return true
+        }
+    }
+    function checkFile2(val){
+        if(val){
+            setError(prev => ({...prev,"file":"imagem nao pode ser nulo"}))
+            return false
+        }else{
+            setError(prev => ({...prev,"file":""}))
+            return true
+        }
+    }
+    function subs(e){
+        e.preventDefault()
+        checkFunction(false,"")
+        console.log("is valid "+valref.current)
+        if(valref.current){
+            submitFunc(e)
+        }
+        //console.log(error)
+    }
     return (
         <div className={Style.FormUserContainer}>
             <form>
                 <div className={Style.ImgFieldCon}>
                     <ImgInput refId={"userImg1"}
                         file={file} setFile={setFile} update={true}
+                        checkF={checkFile2}
+                        error={error}
                         obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>
                 </div>
-                <Field lab="name" type="text" obj={obj} setVal={setObj}></Field>
-                <Field lab="password" type="password" obj={obj} setVal={setObj}></Field>
-                <button onClick={(e) => submitFunc(e)}>submit</button>
+                <Field lab="name" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                <Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}
+                ></Field>
+                <button onClick={(e) => subs(e)}>submit</button>
             </form>
         </div>
     )

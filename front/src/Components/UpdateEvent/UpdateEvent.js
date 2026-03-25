@@ -10,16 +10,90 @@ import MapComp from "../MapComp/MapComp";
 import CardUp from "../CardUp/CardUp";
 export default function UpdateEvent() {
     const { id } = useParams();
-    let [obj, setObj] = useState({})
+    let [obj, setObj] = useState({title:null,description:null,eventDate:null,latlon:null,display:null})//{})
     let [file, setFile] = useState()
     let [rol, setRol] = useState('')
     let [event, setEvent] = useState([])
     let lstE = useRef([])
+
+    let Opeation = useRef(true)
+
+    //ERROR
+    let [error, setError] = useState({})
+    let valref = useRef(false)
+
+    function checkFunction(checkOne, fieldName) {
+        let valid = true
+        Object.keys(obj).forEach((el, i) => {
+            if (checkOne ? el == fieldName && obj[el] : obj[el]) {
+                setError(prev => ({ ...prev, [el]: "" }))
+                if (el == "password") {
+                    let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&]).{5,}$/
+                    if (!reg.test(obj[el])) {
+                        setError(prev => ({ ...prev, [el]: "senha fraca" }))
+                        valid = false
+                    }
+                }
+            } else {
+                if (!checkOne ? true : el == fieldName) {
+                    setError(prev => ({ ...prev, [el]: "nao pode ser nulo" }))
+                    console.log("nullable " + el)
+                    valid = false
+                }
+            }
+        })
+        if (!checkOne && Opeation.current) {
+            if (!checkFile()) {
+                valid = false
+            }
+        }
+        if (!checkOne) {
+            valref.current = valid
+        }
+    }
+    function checkFile() {
+        if (!file) {
+            setError(prev => ({ ...prev, "file": "imagem nao pode ser nulo" }))
+            return false
+        } else {
+            setError(prev => ({ ...prev, "file": "" }))
+            return true
+        }
+    }
+    function checkFile2(val) {
+        if (val) {
+            setError(prev => ({ ...prev, "file": "imagem nao pode ser nulo" }))
+            return false
+        } else {
+            setError(prev => ({ ...prev, "file": "" }))
+            return true
+        }
+    }
+    function subs1(e) {
+        e.preventDefault()
+        checkFunction(false, "")
+        console.log("is valid " + valref.current)
+        console.log(error)
+        if (valref.current) {
+            subsFunction()
+        }
+    }
+    function subs2(e) {
+        e.preventDefault()
+        checkFunction(false, "")
+        console.log("is valid " + valref.current)
+        console.log(error)
+        if (valref.current) {
+            execUpdate()
+        }
+        //console.log(error)
+    }
+
     useEffect(() => {
         let obj1 = JSON.parse(localStorage.getItem("token"))
         //console.log("the role is here")
         //console.log(obj1)
-        const res = async ()=>{
+        const res = async () => {
             if (obj1 && obj1.role) {
                 setRol(obj1.role)
                 //console.log(obj1.role)
@@ -33,12 +107,12 @@ export default function UpdateEvent() {
         }
         res()
     }, [])
-    function setFirstEvetn(){
+    function setFirstEvetn() {
         console.log("trying to load")
         //console.log(event)
         console.log(lstE.current)
-        lstE.current.forEach((el,i)=>{
-            if(el.id == id){
+        lstE.current.forEach((el, i) => {
+            if (el.id == id) {
                 console.log("is equal here=---------------")
                 updateEventFunction(el)
             }
@@ -131,10 +205,13 @@ export default function UpdateEvent() {
     function updateEventFunction(el) {
         console.log(el)
         setObj(el)
+        Opeation.current = false
 
     }
     function clearFields() {
-        setObj({})
+        setObj({title:null,description:null,eventDate:null,latlon:null,display:null})
+        setError({})
+        Opeation.current = true
     }
     async function execUpdate() {
         //console.log("the field are")
@@ -175,15 +252,30 @@ export default function UpdateEvent() {
                         <div className={Style.SideBox}>
                             <div className={Style.InputBox}>
                                 <div className={Style.ImgFieldCon}>
+                                    {(!Opeation.current) ? (
                                     <ImgInput refId={"userImg1"}
                                         file={file} setFile={setFile} update={true}
-                                        obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>
+                                        obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>)
+                                        : (
+                                    <ImgInput refId={"userImg1"}
+                                        file={file} setFile={setFile} update={true}
+                                        checkF={checkFile2}
+                                        error={error}
+                                        obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>)
+                                    }
                                 </div>
-                                <Field lab="title" type="text" obj={obj} setVal={setObj}></Field>
-                                <Field lab="description" type="text" obj={obj} setVal={setObj}></Field>
+                                <Field lab="title" type="text" obj={obj} setVal={setObj}
+                                 error={error} checkF={checkFunction}></Field>
+                                <Field lab="description" type="text" obj={obj} setVal={setObj}
+                                 error={error} checkF={checkFunction}></Field>
                                 <div>
-                                    <button onClick={() => subsFunction()}>Submit</button>
-                                    <button onClick={() => execUpdate()}>update</button>
+                                    {Opeation.current && (
+                                        <button onClick={(e) => subs1(e)}>Submit</button>)
+                                    }
+                                    {!Opeation.current && (
+                                        <button onClick={(e) => subs2(e)}>update</button>
+                                    )
+                                    }
                                 </div>
                                 <button className={Style.clearCon}
                                     onClick={() => clearFields()}>X</button>

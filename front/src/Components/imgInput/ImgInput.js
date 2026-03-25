@@ -1,21 +1,22 @@
 import React from "react";
 import Style from "./ImgInput.module.css"
-import { useRef,useState,useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function ImgInput(props) {
     let refimg = useRef()
-    useEffect (()=>{
-        if(props.obj[props.lab]){
+    //let errRef = useRef(true)
+    useEffect(() => {
+        if (props.obj[props.lab]) {
             simpleSet()
-        }else{
+        } else {
             simpleSet2()
         }
-    },[props.obj[props.lab]])
+    }, [props.obj[props.lab]])
     function imgFunc() {
         let len = Array.from(document.getElementById(props.refId).files)
         if (len.length > 0) {
             let filesres = document.getElementById(props.refId).files[0]
-            if(props.update){
+            if (props.update) {
                 props.setFile(filesres)
             }
             let fl = new FileReader()
@@ -30,24 +31,41 @@ export default function ImgInput(props) {
     }
     function execbtn() {
         console.log("ok")
+        const input = document.getElementById(props.refId)
+        const hasFile = input.files && input.files.length > 0
+
+        if(props.checkF){
+            if (!hasFile) {
+                props.checkF(false)
+            }else{
+                props.checkF(true)
+            }
+        }
+
         imgFunc()
+        //props.checkF()
     }
-    function simpleSet(){
+    function simpleSet() {
         console.log("the src in imgcomp is")
         console.log(`${props.path}${props.obj[props.lab]}`)
-        refimg.current.setAttribute('src',`${props.path}${props.obj[props.lab]}`);
+        refimg.current.setAttribute('src', `${props.path}${props.obj[props.lab]}`);
     }
-    function simpleSet2(){
+    function simpleSet2() {
         console.log("the src in imgcomp is")
         console.log(`${props.path}${props.obj[props.lab]}`)
-        refimg.current.setAttribute('src',`/static/default-image.jpg`);
+        refimg.current.setAttribute('src', `/static/default-image.jpg`);
     }
     return (
         <div className={Style.imgInputContainer}>
             <label htmlFor={props.refId} className={Style.imgIMainC}>
                 <img src="/static/citynight.jpg" ref={refimg} />
-                <input id={props.refId} type="file" multiple={false} onChange={() => execbtn()}/>
+                <input id={props.refId} type="file" multiple={false} onChange={() => execbtn()}
+                //onBlur={(e)=>checkFile(e)}
+                />
             </label>
+            {(props.error && props.error[props.lab]) && (
+                <p className={Style.ErrorMsg}>{props.error[props.lab]}</p>
+            )}
         </div>
     )
 }

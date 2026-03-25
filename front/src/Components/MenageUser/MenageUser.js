@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Style from "./MenageUser.module.css"
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
 import Field from "../Field/Field";
 import ImgInput from "../imgInput/ImgInput";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,61 @@ export default function MenageUser() {
     let nav = useNavigate()
     let [rol, setRol] = useState('')
     let [file, setFile] = useState()
-    const [obj, setObj] = useState({ role: "user" })
+    const [obj, setObj] = useState({name:null,password:null,role: "user" })
     let [eventLst,setEventLst] = useState([])
+
+    //ERROR
+    let [error, setError] = useState({})
+    let valref = useRef(false)
+
+    function checkFunction(checkOne, fieldName) {
+        let valid = true
+        Object.keys(obj).forEach((el, i) => {
+            if (checkOne ? el == fieldName && obj[el]
+                : obj[el]) {
+                setError(prev => ({ ...prev, [el]: "" }))
+                if (el == "password") {
+                    let reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&]).{5,}$/
+                    if (!reg.test(obj[el])) {
+                        setError(prev => ({ ...prev, [el]: "senha fraca" }))
+                        valid = false
+                    }
+                }
+            } else {
+                if(el != "status"){
+                    if (!checkOne ? true : el == fieldName) {
+                        setError(prev => ({ ...prev, [el]: "nao pode ser nulo" }))
+                        console.log("nullable " + el)
+                        valid = false
+                    }
+                }
+            }
+        })
+        /*
+        if (!checkOne) {
+            if (!checkFile()) {
+                valid = false
+            }
+        }*/
+        if (!checkOne) {
+            valref.current = valid
+        }
+    }
+
+    function subs(e){
+        e.preventDefault()
+        checkFunction(false,"")
+        console.log("is valid "+valref.current)
+        console.log(error)
+        if(valref.current){
+            //submitFunc(e)
+            //printRes()
+            //submit(e)
+            DealUpdate(e)
+        }
+        //console.log(error)
+    }
+
     useEffect(() => {
         let obj1 = JSON.parse(localStorage.getItem("token"))
         //console.log("the role is here")
@@ -19,6 +72,7 @@ export default function MenageUser() {
             //console.log(obj1.role)
             getMenageUser()
             if(obj1.role == "admin"){
+
                 getUserEvents()
             }
         } else {
@@ -191,17 +245,22 @@ export default function MenageUser() {
                         obj={obj} lab="file" path="http://localhost:4000/uploads/"
                         ></ImgInput>
                     </div>
-                    <Field lab="name" type="text" obj={obj} setVal={setObj}></Field>
-                    <Field lab="password" type="password" obj={obj} setVal={setObj}></Field>
-                    <button onClick={(e) => DealUpdate(e)}>update</button>
+                    <Field lab="name" type="text" obj={obj} setVal={setObj}
+                    error={error} checkF={checkFunction}></Field>
+                    <Field lab="password" type="password" obj={obj} setVal={setObj}
+                    error={error} checkF={checkFunction}></Field>
+                    <button onClick={(e) => subs(e)}>update</button>
                 </div>
             </div>
             {rol == 'admin' && (
                 <div className={Style.sideContent}>
                     <div className={Style.contentBlock}>
-                        <Field lab="cnpj" type="text" obj={obj} setVal={setObj}></Field>
-                        <Field lab="description" type="text" obj={obj} setVal={setObj}></Field>
-                        <Field lab="logo" type="text" obj={obj} setVal={setObj}></Field>
+                        <Field lab="cnpj" type="text" obj={obj} setVal={setObj}
+                        error={error} checkF={checkFunction}></Field>
+                        <Field lab="description" type="text" obj={obj} setVal={setObj}
+                        error={error} checkF={checkFunction}></Field>
+                        <Field lab="logo" type="text" obj={obj} setVal={setObj}
+                        error={error} checkF={checkFunction}></Field>
                     </div>
                     <div className={Style.contentBlock}>
                         <div className={Style.lstStl}>
