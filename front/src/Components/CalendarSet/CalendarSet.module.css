@@ -1,0 +1,194 @@
+.ContainerCal{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*border: 2px solid orange;*/
+}
+.calCon{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /*border-radius: 15px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);*/
+}
+.sideCon{
+    background-color: black;
+    height: 100%;
+    max-width: 20%;
+    min-width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mainSide{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 5px;
+}
+.grdDays{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(7,auto);
+    grid-template-rows: auto;
+    overflow: hidden;
+}
+.grdDays > div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1vw;
+}
+.CalendarH{
+    width: 100%;
+    min-height: 20%;
+    max-height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.CalendarH2{
+    width: 100%;
+    min-height: 20%;
+    max-height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+.displayDays,.displayDays > div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.grdDays > div{
+    transition: 0.5s;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+.grdDays > div > span{
+    display: none;
+}
+.grdDays > div:Hover{
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    color: green;
+}
+.line{
+    width: 100%;
+    border: 2px solid lightgray;
+}
+.displayMonth{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.displayMonth > div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.displayMonth{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+.displayMonth > button{
+    height: 50%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    transition: 0.5s;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+}
+.displayMonth > button:hover{
+    background-color: white;
+    color: black;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+.displayMonth > p{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+    text-transform: uppercase;
+
+}
+.displayYear{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.displayYear > p{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+
+}
+.displayYear > .btnYear{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px;
+    gap: 5px;
+}
+.btnYear > button{
+    height: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    transition: 0.5s;
+}
+.btnYear > button:hover{
+    color: black;
+    background-color: white;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+:global(.selectedDateDay){
+    background-color: green !important;
+    color: white !important;
+}
+.unSelected{
+    color: lightgray;
+    opacity: 0.5;
+}

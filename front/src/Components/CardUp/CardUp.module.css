@@ -1,0 +1,130 @@
+.ContainerCardUp {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.imgCon {
+    min-height: 30%;
+    height: 30%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.imgCon>img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.5);
+}
+
+.imgCon>p {
+    position: absolute;
+    margin: 10px;
+    left: 0px;
+    bottom: 0px;
+    opacity: 0.5;
+    color: rgb(250, 250, 250);
+    font-weight: bolder;
+    font-size: 2vw;
+    text-transform: uppercase;
+    font-family: Arial;
+}
+
+.CardUpContent {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10px;
+    gap: 5px;
+    overflow: hidden;
+}
+
+.topic {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    overflow: hidden;
+}
+
+.topic>img {
+    height: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.topic>.txtDesc {
+    font-size: 1vw;
+    padding: 5px;
+    background-color: lightgray;
+    border-radius: 2px;
+    font-family: Arial;
+}
+
+.topic>.locdesc {
+    font-size: 1vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.btnCon{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+}
+.btnCon > .btnItemC{
+    height: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.btnItemC > img{
+    height: 70%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+}
+.descCon{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+.descCon > p:nth-of-type(1){
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+.descCon > p:nth-of-type(2){
+    font-size: 1.5vw;
+    text-overflow: ellipsis;
+    text-align: justify;
+}

@@ -1,0 +1,51 @@
+*{
+     box-sizing: border-box;
+     margin: 0px;
+     border: none;
+}
+.Container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*border: 2px solid orange;*/
+    overflow: hidden;
+    position: relative;
+}
+.ContainerMap{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.SearchBox{
+    width: 70%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 12;
+    top: 0px;
+}
+.SearchBox > input{
+    height: 100%;
+    width: 70%;
+}
+.SearchBox > button{
+    height: 100%;
+    width: 30%;
+    font-family: Arial;
+    background-color: black;
+    color: white;
+    transition: 0.5s;
+}
+.SearchBox > button:hover{
+    background-color: white;
+    color: black;
+}
+.posz{
+    z-index: 0;
+}

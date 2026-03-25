@@ -1,0 +1,60 @@
+.ContainerP{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ContentCon{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ItemB{
+    height: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*border: 2px solid red;*/
+    position: relative;
+}
+.ItemB:global(.selected) > .mark{
+    background-color: red;
+}
+.mark{
+    position: absolute;
+    z-index: 10;
+    background-color: black;
+    height: 70%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 50%;
+    font-size: 4vw;
+    transition: 0.5s;
+}
+.ContentCon > .ItemB:not(:nth-last-child(1)) > .progBar{}
+
+
+.ContentCon > .ItemB:not(:nth-child(1)) > .progBar{
+    width: 0%;
+    position: absolute;
+    left: -50%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: black;
+    border: 2px solid black;
+    transition: 0.5s;
+
+}
+.ContentCon > .ItemB:global(.selected):not(:nth-last-child(1)) > .progBar{}
+
+.ContentCon > .ItemB:global(.selected):not(:nth-child(1)) > .progBar{
+    width: 100% !important;
+    border: 2px solid red;
+}
