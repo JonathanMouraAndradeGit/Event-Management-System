@@ -92,7 +92,8 @@ export class OngService {
             usr.ondData = ong
 
             // 🔥 salva tudo de uma vez (com cascade)
-            return await this.userRep.save(usr)
+            let res = await this.userRep.save(usr)
+            return res
 
         } catch (e) {
             console.log(e)

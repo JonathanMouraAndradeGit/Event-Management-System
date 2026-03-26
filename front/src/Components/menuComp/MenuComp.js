@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 export default function MenuComp(props) {
     let nav = useNavigate()
     let [rol, setRol] = useState('')
+    let [fil,setFil] = useState('')
     useEffect(() => {
         console.log(props.auth)
         if (props.auth && props.auth.role) {
             setRol(props.auth.role)
+            setFil(props.auth.file)
         } else {
             setRol('')
         }
@@ -23,58 +25,53 @@ export default function MenuComp(props) {
     return (
         <div className={Style.stlMenu}>
             <div className={Style.container}>
-                <div className={Style.menuItem}>
+                <div className={Style.menuItemTitle}>
                     <div className={Style.menuIcon}>
-                        <img src="/static/settings.png"></img>
+                        <img src="/static/atom.png"></img>
                     </div>
-                    <Link to="/frm1">description1</Link>
+                    <Link to="/">Title</Link>
                 </div>
                 {rol == 'admin' && (
                     <div className={Style.menuItem}>
                         <div className={Style.menuIcon}>
-                            <img src="/static/user_17740838.png"></img>
+                            <img src="/static/edit.png"></img>
                         </div>
-                        <Link to="/frm6/">updateEvent</Link>
+                        <Link to="/frm6/">update</Link>
                     </div>)
                 }
                 {rol == '' && (
-                <div className={Style.menuItem}>
-                    <div className={Style.menuIcon}>
-                        <img src="/static/user_17740838.png"></img>
-                    </div>
-                    <Link to="/frm3">login</Link>
-                </div>)
+                    <div className={Style.menuItem}>
+                        <div className={Style.menuIcon}>
+                            <img src="/static/user.png"></img>
+                        </div>
+                        <Link to="/frm3">login</Link>
+                    </div>)
                 }
                 {rol != '' && (
                     <div className={Style.menuItem}>
                         <div className={Style.menuIcon}>
-                            <img src="/static/user_17740838.png"></img>
-                        </div>
-                        <button onClick={() => logout()}>logout</button>
-                    </div>
-                )}
-                {rol != '' && (
-                    <div className={Style.menuItem}>
-                        <div className={Style.menuIcon}>
-                            <img src="/static/settings.png"></img>
+                            <img src="/static/clipboard.png"></img>
                         </div>
                         <Link to="/frm4">list</Link>
-                    </div>
-                )}
-                {rol != '' && (
-                    <div className={Style.menuItem}>
-                        <div className={Style.menuIcon}>
-                            <img src="/static/user_17740838.png"></img>
-                        </div>
-                        <Link to="/frm5">account</Link>
                     </div>
                 )}
                 {rol == 'user' && (
                     <div className={Style.menuItem}>
                         <div className={Style.menuIcon}>
-                            <img src="/static/user_17740838.png"></img>
+                            <img src="/static/calendar2.png"></img>
                         </div>
                         <Link to="/frm8">agenda</Link>
+                    </div>
+                )}
+                {rol != '' && (
+                    <div className={Style.menuItemAc}>
+                        <div className={Style.menuIconAc}>
+                            <img src={`http://localhost:4000/uploads/${fil}`}></img>
+                        </div>
+                        <div className={Style.itemsideContent}>
+                            <div className={Style.acItems}><img src="/static/logout.png" onClick={() => logout()}/></div>
+                            <div className={Style.acItems}><Link to="/frm5"><img src="/static/setting.png"/></Link></div>
+                        </div>
                     </div>
                 )}
             </div>
@@ -83,6 +80,28 @@ export default function MenuComp(props) {
 }
 
 /*
+{rol != '' && (
+                    <div className={Style.menuItem}>
+                        <div className={Style.menuIcon}>
+                            <img src="/static/logout.png"></img>
+                        </div>
+                        <p onClick={() => logout()}>logout</p>
+                    </div>
+                )}
+{rol != '' && (
+                    <div className={Style.menuItem}>
+                        <div className={Style.menuIcon}>
+                            <img src="/static/user.png"></img>
+                        </div>
+                        <Link to="/frm5">account</Link>
+                    </div>
+                )}
+<div className={Style.menuItem}>
+                    <div className={Style.menuIcon}>
+                        <img src="/static/settings.png"></img>
+                    </div>
+                    <Link to="/frm1">description1</Link>
+                </div>
 {rol == 'admin' && (
                     <div className={Style.menuItem}>
                         <div className={Style.menuIcon}>

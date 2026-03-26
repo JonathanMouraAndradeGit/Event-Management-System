@@ -35,10 +35,14 @@ export class AppController {
   async checkAuth(@Body() obj: any) {
     let ck: any = await this.serv.checkUse(obj);
     let role = await this.serv.getUserRole(obj.name);
+    let usr:any = await this.serv.getUserByName(obj.name)
+
     console.log(ck)
+    console.log("auth check user is")
+    console.log(usr.file)
     try {
       if (ck) {
-        return { token: this.serv.genoken(obj), role: role }
+        return { token: this.serv.genoken(obj), role: role,file:usr.file}
       } else {
         return { msg: "invalid authentication" }
       }

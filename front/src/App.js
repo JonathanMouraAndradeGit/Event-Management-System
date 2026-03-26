@@ -22,6 +22,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import UpdateEvent from './Components/UpdateEvent/UpdateEvent';
 import 'leaflet/dist/leaflet.css';
+import Main from './Components/Main/Main';
 function App() {
   let [userCred,setUserCred] = useState({})
   useEffect(()=>{
@@ -34,6 +35,9 @@ function App() {
         <MenuComp auth={userCred} setAuth={setUserCred}></MenuComp>
         <div className="content">
         <Routes>
+          <Route path='/' element={<Main></Main>}>
+
+          </Route>
           <Route path='/frm1' element={<Form1>
             <div id='side1' className='sidep'><FormUser></FormUser></div>
             <div id='side2' className='sidep'>

@@ -1,7 +1,9 @@
 import React, { useState,useRef } from "react";
 import Style from "./LoginComp.module.css"
 import Field from "../Field/Field";
+import { useNavigate } from "react-router-dom";
 export default function LoginComp(props) {
+    let nav = useNavigate()
     let [obj, setObj] = useState({name:null,password:null})
     //ERROR
     let [error, setError] = useState({})
@@ -81,12 +83,13 @@ export default function LoginComp(props) {
         }).then((e)=>e.json())
         console.log(response)
         if(response.token){
-            let objls = {name:obj.name,role:response.role,token:response.token}
+            let objls = {name:obj.name,role:response.role,token:response.token,file:response.file}
             console.log(objls)
-            let jweb = JSON.stringify({name:obj.name,role:response.role,token:response.token})
+            let jweb = JSON.stringify({name:obj.name,role:response.role,token:response.token,file:response.file})
             localStorage.setItem("token",jweb)
             props.setAuth(objls)
             //localStorage.setItem("")
+            nav("/")
         }
         /*
         let response = await fetch("http://[::1]:4000/usr", {
@@ -108,6 +111,7 @@ export default function LoginComp(props) {
                 <form className={Style.sideContentR}>
                     <Field lab="name" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
                     <Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                    <a href="/frm1" className={Style.linkCon}>Sing-Up</a>
                     <button onClick={(e) => subs(e)}>submit</button>
                 </form>
             </div>

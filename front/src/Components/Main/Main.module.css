@@ -1,0 +1,263 @@
+.MainContainer{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-direction: column;
+}
+.MainSec{
+    width: 100%;
+    height: 70%;
+    min-height: 70%;
+    position: relative;
+}
+.imgCon{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.imgCon > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.5);
+}
+.ContentTxt{
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 10px;
+    gap: 5px;
+    left: 0px;
+    top: 0px;
+    flex-direction: column;
+}
+.Line{
+    width: 100%;
+    border: 1px solid white;
+    margin-bottom: 10px;
+}
+.ContentTxt > p:nth-of-type(1){
+    font-size: 1vw;
+    font-family: Arial;
+    color: white;
+}
+.ContentTxt > p:nth-of-type(2){
+    font-size: 5vw;
+    text-transform: uppercase;
+    font-family: Arial;
+    color: white;
+}
+.ContentTxt > p:nth-of-type(3){
+    font-size: 1.5vw;
+    font-family: Arial;
+    color: white;
+    text-align: justify;
+}
+.btnSlc{
+    width: 100%;
+    height: 10%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+    font-size: 2vw;
+    transition: 0.5s;
+}
+.btnSlc:hover{
+    background-color: white;
+    color: black;
+}
+.CardLst{
+    width: 100%;
+    height: 60%;
+    min-height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+}
+.CardItem{
+    position: relative;
+    width: calc(100%/3);
+    height: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+.IConC{
+    width: 40%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.IConC > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.cardDesc{
+    width: 100%;
+    background-color: white;
+    opacity: 1;
+    bottom: 0px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+.cardDesc > p:nth-of-type(1){
+    text-align: justify;
+    font-size: 3vw;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+.cardDesc > p:nth-of-type(2){
+    text-align: center;
+    font-size: 1.5vw;
+}
+.SldCon{
+    width: 100%;
+    height: 70%;
+    min-height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.grdCon {
+    padding: 10px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    width: 100%;
+}
+
+.CardConTopic {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    background: white;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cardTopContent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.imgTopCon {
+    width: 40px;
+    height: 40px;
+}
+
+.imgTopCon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.desc {
+    text-align: justify;
+    color: lightgray;
+}
+
+.footer {
+  width: 100%;
+  height: 60%;
+  min-height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: black;
+  padding: 10px;
+}
+
+/* CONTAINER */
+.footerContainer {
+  width: 100%;
+  padding: 10px;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+/* BRAND */
+.footerBrand h2 {
+  color: white;
+  margin-bottom: 10px;
+}
+.footerBrand p {
+  color: white;
+  margin-bottom: 10px;
+}
+
+/* LINKS */
+.footerLinks {
+  display: flex;
+  gap: 40px;
+}
+
+.footerLinks h4 {
+  margin-bottom: 10px;
+  color: white;
+}
+
+.footerLinks a {
+  display: block;
+  text-decoration: none;
+  color: #94a3b8;
+  margin-bottom: 5px;
+  transition: 0.2s;
+}
+
+.footerLinks a:hover {
+  color: #22c55e;
+}
+
+/* BOTTOM */
+.footerBottom {
+  border-top: 1px solid #1e293b;
+  padding-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}

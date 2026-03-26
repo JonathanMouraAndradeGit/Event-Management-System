@@ -2,7 +2,9 @@ import React, { useRef, useState } from "react";
 import Style from "./FormUser.module.css"
 import Field from "../Field/Field";
 import ImgInput from "../imgInput/ImgInput";
+import { useNavigate } from "react-router-dom";
 export default function FormUser() {
+    let nav = useNavigate()
     const [obj, setObj] = useState({name:null,password:null, role: "user" })
     let [file, setFile] = useState()
     let [error,setError] = useState({})
@@ -28,7 +30,9 @@ export default function FormUser() {
             body: formData
         }).then((e) => e.json())
         console.log(response)
-
+        if(!response.msgerror){
+            nav("/frm3")
+        }
         /*
         let response = await fetch("http://[::1]:4000/authck/",{
                 headers:{

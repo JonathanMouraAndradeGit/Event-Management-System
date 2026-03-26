@@ -47,7 +47,7 @@ export class UserServ {
             return usrc
         } catch (e) {
             console.log("Error" + e)
-            return { mesage: "erro ao inserir usuário" }
+            return { msgerror: "erro ao inserir usuário" }
         }
     }
     async updateUser(usr: UserDTO, id: number) {

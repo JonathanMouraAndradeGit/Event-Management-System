@@ -4,7 +4,9 @@ import SldInputComp from "../SldInputComp/SldInputComp";
 import Field from "../Field/Field";
 import { useState, useRef } from "react";
 import ImgInput from "../imgInput/ImgInput";
+import { useNavigate } from "react-router-dom";
 export default function ProgressForm() {
+    let nav = useNavigate()
     let [obj, setObj] = useState({name:null,password:null,role: "admin",cnpj:null,logo:null,
         description:null
     })
@@ -34,7 +36,9 @@ export default function ProgressForm() {
             method: "POST",
             body: formData//JSON.stringify(newObj)
         }).then((e) => e.json())
-
+        if(!response.messageerr){
+            nav("/frm3")
+        }
         console.log(response)
     }
     function appendFormData(formData, data, parentKey = '') {

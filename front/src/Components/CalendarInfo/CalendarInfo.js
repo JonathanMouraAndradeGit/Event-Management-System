@@ -12,6 +12,16 @@ export default function CalendarInfo(props) {
         "August", "September", "October", "November", "December"]
     //let [selectedDate, setSelectedDate] = useState()
     let selectedDT = useRef()
+    //useEffect(() => {
+        //if (props.readOnly && props.obj[props.lab]) {
+        /*
+        if (props.obj[props.lab]) {
+            selectedDT.current = props.obj[props.lab]
+        }*/
+        //loadDays()
+
+        //props.setVal
+    //}, [])
     useEffect(() => {
         //if (props.readOnly && props.obj[props.lab]) {
         /*
@@ -21,7 +31,7 @@ export default function CalendarInfo(props) {
         loadDays()
 
         //props.setVal
-    }, [])
+    }, [props.dateset])
     /*
     useEffect(() => {
         //refField.current.value = props.obj[props.lab]

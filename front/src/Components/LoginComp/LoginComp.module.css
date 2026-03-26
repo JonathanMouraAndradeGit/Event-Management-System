@@ -23,6 +23,20 @@
     align-items: center;
     justify-content: center;
 }
+.linkCon{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 5px;
+    font-size: 1vw;
+    text-decoration: none;
+    color: red;
+    transition: 0.5s;
+}
+.linkCon:hover{
+    color: rgb(124, 0, 0);
+}
 .sideContentR{
     width: 30%;
     height: 100%;

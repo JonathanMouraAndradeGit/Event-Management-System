@@ -202,7 +202,9 @@ export default function CalendarSet(props) {
                         <div className={Style.displayMonth}>
                             {monthName.map((el, i) => {
                                 return (
-                                    <div onClick={() => gotoMonth(el)} key={`monthLstK${i}`}>{el}</div>
+                                    <div onClick={() => gotoMonth(el)} key={`monthLstK${i}`}
+                                    className={Style.dispMonth}>
+                                        {el}</div>
                                 )
                             })}
                         </div>
