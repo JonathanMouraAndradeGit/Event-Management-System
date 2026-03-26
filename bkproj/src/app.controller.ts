@@ -260,7 +260,7 @@ export class AppController {
       const decoded = await this.jwtService.decode(tok);
       console.log(decoded)
       let res: any = await this.ongserv.getOngByUserName(decoded.name)
-      return await this.eventServ.OngEvent(res.id)
+      return await this.eventServ.OngEvent(res.ondData.id)
     } catch (e) {
       return { msgError: "erro ao buscar" }
     }
