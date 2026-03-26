@@ -278,6 +278,9 @@ export class EventService {
     async OngEvent(ongId: number) {
         try {
             let ong: any = await this.ong.findOneBy({ id: ongId })
+            if(!ong){
+                throw new Error("ong não encontrada")
+            }
             let events = await this.event.find({ where: { ongE: ong } })
             return events
         } catch (e) {
