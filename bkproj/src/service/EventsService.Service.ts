@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { error } from "console";
 import { title } from "process";
+import { empty } from "rxjs";
 import { EventCommentsDTO } from "src/entities/DTO/EventComments";
 import { EventDTO } from "src/entities/DTO/EventDTO";
 import { EventE } from "src/entities/Event.entity";
@@ -110,58 +112,58 @@ export class EventService {
             return { messagerror: e.message };
         }
     }
-    async getAllVolunteers(idEvent:number){
-        try{
-            let event:any = await this.event.findOneBy({id:idEvent})
-            if(!event){
+    async getAllVolunteers(idEvent: number) {
+        try {
+            let event: any = await this.event.findOneBy({ id: idEvent })
+            if (!event) {
                 throw new Error("Evento não encontrado");
             }
-            let result = await this.injectValunteer.find({where:{subscription:event},relations:["userD"]})
+            let result = await this.injectValunteer.find({ where: { subscription: event }, relations: ["userD"] })
             console.log(result)
             return result
-        }catch(e){
+        } catch (e) {
             console.error(e);
             return { messagerror: "Erro ao buscar usuários" };
         }
     }
-    async getAllEventsSubscription(id:number){
-        try{
-            let obj:any = await this.usrE.findOne({where:{id:id},relations:["volunData"]})
-            if(!obj){
+    async getAllEventsSubscription(id: number) {
+        try {
+            let obj: any = await this.usrE.findOne({ where: { id: id }, relations: ["volunData"] })
+            if (!obj) {
                 throw new Error("usuário nao encontrado")
             }
             console.log("the obj is")
             console.log(obj)
-            let evetns:any =  await this.injectValunteer.findOne({where:{id:obj.volunData.id},relations:["subscription"]})
-            if(!evetns){
+            let evetns: any = await this.injectValunteer.findOne({ where: { id: obj.volunData.id }, relations: ["subscription"] })
+            if (!evetns) {
                 throw new Error("eventos nao encontrado")
             }
             return evetns.subscription
-        }catch(e){
+        } catch (e) {
             console.error(e);
             return { messagerror: "Erro ao buscar inscricoes" };
         }
     }
-    async isVolunteerInEvent(idEvent:number,idusr:number){
-        try{
-            let usrInfo:any = await this.usrE.findOne({where:{id:idusr},relations:["volunData"]})
-            let event:any = await this.event.findOneBy({id:idEvent})
-            if(!usrInfo){
+    async isVolunteerInEvent(idEvent: number, idusr: number) {
+        try {
+            let usrInfo: any = await this.usrE.findOne({ where: { id: idusr }, relations: ["volunData"] })
+            let event: any = await this.event.findOneBy({ id: idEvent })
+            if (!usrInfo) {
                 throw new Error("usuário não encontrado");
             }
-            if(!event){
+            if (!event) {
                 throw new Error("Evento não encontrado");
             }
-            let result = await this.injectValunteer.find({where:{subscription:event,userD:usrInfo},relations:["userD"]})
+            let result = await this.injectValunteer.find({ where: { subscription: event, userD: usrInfo }, relations: ["userD"] })
             //console.log("the result is -------------------------------------")
             //console.log(result)
             //console.log("end is here ------------------------")
-            if(result && result[0]){
-                return {subscribe:true}
-            }else{
-                return {subscribe:false}
+            if (result && result[0]) {
+                return { subscribe: true }
+            } else {
+                return { subscribe: false }
             }
-        }catch(e){
+        } catch (e) {
             console.error(e);
             return { messagerror: "Erro ao buscar usuários" };
         }
@@ -190,7 +192,7 @@ export class EventService {
             return {message:"erro ao realizar inscrição"}
         }
     }*/
-    
+
     async insertEvents(ev: EventDTO, ongId) {
         try {
             let ong: any = await this.ong.findOneBy({ id: ongId }) //await this.ong.findOneBy({id:ev.id})
@@ -278,7 +280,7 @@ export class EventService {
     async OngEvent(ongId: number) {
         try {
             let ong: any = await this.ong.findOneBy({ id: ongId })
-            if(!ong){
+            if (!ong) {
                 throw new Error("ong não encontrada")
             }
             let events = await this.event.find({ where: { ongE: ong } })
@@ -287,6 +289,7 @@ export class EventService {
             return { messageerr: "erro ao buscar ong" }
         }
     }
+    /*
     async insertComment(obj: EventCommentsDTO) {
         try {
             console.log("insertig")
@@ -299,6 +302,73 @@ export class EventService {
         } catch (e) {
             console.log(e)
             return { messageerr: "erro ao inserir Comment" }
+        }
+    }*/
+    async insertComment(obj: EventCommentsDTO) {
+        try {
+            let userRef: any = await this.getUser(obj.user)
+            let eventRef: any = await this.getEvent(obj.event)
+            let result: any = null
+            if (obj.parent) {
+                result = this.eventC.create({
+                    content: obj.content,
+                    user: userRef,
+                    event: eventRef,
+                    parent: { id: obj.parent }
+                })
+            } else {
+                result = this.eventC.create({
+                    content: obj.content,
+                    user: userRef,
+                    event: eventRef
+                })
+            }
+            console.log("attempting to save comment")
+            let vl = await this.eventC.save(result)
+            return vl
+        } catch (e) {
+            console.log(e)
+            return { messageerr: "erro ao inserir Comment" }
+        }
+    }
+    async updateComment(obj: EventCommentsDTO, id) {
+        try {
+            let msg: any = await this.eventC.findOne({ where: { id: id } })
+            console.log("updating comment previous is ")
+            console.log(msg)
+            if (msg && obj.content) {
+                msg.content = obj.content ? obj.content : msg.content
+                await this.eventC.save(msg)
+                return { msg: "comentario atualiza com sucesso" }
+            } else {
+                throw new error("Comentário nao encontrado")
+            }
+        } catch (e) {
+            console.log(e)
+            return { messageerr: "erro ao inserir Comment" }
+        }
+    }
+    async getAlignedComments(eventId: any) {
+        try {
+            /*
+            let comments:any = await this.eventC.find({
+                where: { event: { id: eventId },parent:undefined },
+                relations: ['answers','user', 'answers.answers'],
+            });*/
+            let comments: any = await this.eventC.find({
+                where: { event: { id: eventId }, parent: undefined },
+                relations: [
+                    'user',
+                    'answers',
+                    'answers.user',
+                    'answers.answers',
+                    'answers.answers.user'
+                ],
+            });
+            return comments
+        } catch (e) {
+            console.log(e)
+            return { messageerr: "erro ao buscar Comment" }
         }
     }
 
@@ -339,7 +409,7 @@ export class EventService {
             let { ongE, ...event } = first
             let { id, userData, events, ...ong } = ongE
             let { name, ...val } = result[0].userData
-            let fullobj = { event, ong, name: name,photo:val.file }
+            let fullobj = { event, ong, name: name, photo: val.file }
             return fullobj//result[0]
         } catch (e) {
             return { messageerr: "nao foi possivel obter usuários" }

@@ -4,6 +4,7 @@ import CalendarSet from "../CalendarSet/CalendarSet";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import MapComp from "../MapComp/MapComp";
+import CommentCon3 from "../CommentCon3/CommentCon3";
 export default function EventPage() {
     let [obj, setObj] = useState({})
     let [rol, setRol] = useState('')
@@ -169,6 +170,9 @@ export default function EventPage() {
                     <button onClick={() => subscribe()}>Inscrever{isSubscribe}</button>
                 </div>
             )}
+            <div className={Style.CommentCOn}>
+                <CommentCon3 eventId={id}></CommentCon3>
+            </div>
         </div>
     )
 }

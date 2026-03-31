@@ -1,0 +1,237 @@
+:root {
+    --siz: 4; /* número puro */
+}
+.plusBoxCon{
+    width: 100%;
+    max-height: 20vh;
+    min-height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.plusBoxCon > img{
+    height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+}
+.CommentCon{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    /*border: 2px solid yellow;*/
+    overflow-y: scroll !important;
+}
+
+.levelC,:global(.levelCGraf){
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left: calc(var(--pad) * var(--siz) * 1vw);
+    overflow: visible;
+}
+
+.CommentLevel,:global(.CommentLevelGraft){
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: visible;
+}
+
+.ItemCon,:global(.ItemConGraft){
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    z-index: 1;
+}
+
+.MsgCOntent,:global(.MsgCOntentGraft){
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 10px;
+}
+.msgCcon,:global(.msgCconGraft){
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: lightgray;
+    border-radius: 5px;
+    flex-direction: column;
+    padding: 5px;
+}
+.postTitle,:global(.postTitleGraft){
+    font-family: Arial;
+    text-transform: uppercase;
+    font-weight: bolder;
+    font-size: 3vw;
+}
+
+.CommentLevel > ul,:global(.CommentLevelGraft) > ul{
+    position: relative;
+    overflow: visible;
+}
+.CommentLevel,:global(.CommentLevelGraft){
+    overflow: visible;
+}
+
+/* linha vertical + curva */
+ul > .CommentLevel:not(:nth-last-of-type(1)) > ul::before,
+ul > :global(.CommentLevelGraft):not(:nth-last-of-type(1)) > ul::before{
+    content: "";
+    position: absolute;
+    border-left: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+    height: 100%;
+
+    left: calc(var(--siz) * -0.55vw);
+    top: calc(var(--siz) * 0.5vw);
+
+    border-bottom-left-radius: 15px;
+}
+
+/* linha que conecta o item */
+.levelC > .CommentLevel:not(:nth-last-of-type(1)) > .ItemCon > .MsgCOntent::before,
+
+.levelC > .CommentLevel:nth-last-of-type(1):has(ul > li) > .ItemCon > .MsgCOntent::before,
+
+.levelC > :global(.CommentLevelGraft):not(:nth-last-of-type(1)) > 
+:global(.ItemConGraft) > :global(.MsgCOntentGraft)::before,
+
+:global(.levelCGraf) > :global(.CommentLevelGraft):not(:nth-last-of-type(1)) > 
+:global(.ItemConGraft) > :global(.MsgCOntentGraft)::before,
+
+.levelC > :global(.CommentLevelGraft):nth-last-of-type(1):has(ul> li) > 
+:global(.ItemConGraft) > :global(.MsgCOntentGraft)::before,
+
+:global(.levelCGraf) > :global(.CommentLevelGraft):nth-last-of-type(1):has(ul > li) > 
+:global(.ItemConGraft) > :global(.MsgCOntentGraft)::before {
+    content: "";
+    position: absolute;
+    border-left: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+    height: 100%;
+
+    left: calc(var(--siz) * -1.5vw);
+    top: calc(var(--siz) * 0.5vw);
+
+    border-bottom-left-radius: 15px;
+}
+
+.Marker,:global(.MarkerGraft){
+    height: calc(var(--siz) * 1vw);
+    aspect-ratio: 1/1;
+    background-color: aqua;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.Marker > img,:global(.MarkerGraft) > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.Line{
+    position: absolute;
+    height: 100%;
+    border: 2px solid purple;
+    z-index: 12;
+    top: 50%;
+}
+.CommentbtnCon,:global(.CommentbtnConGraf){
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+.CommentbtnCon > button, :global(.CommentbtnConGraf) > button{
+    height: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    overflow: hidden;
+}
+.CommentbtnCon > img, :global(.CommentbtnConGraf) > img{
+    height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+    z-index: 12;
+}
+.Field{
+    position: relative;
+    width: 100%;
+    min-height: 7vh;
+    border-bottom: 2px solid black;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+.Field > input{
+    width: 100%;
+    height: 3.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    background-color: transparent;
+}
+.Field:has(input:not(:placeholder-shown)) > label,.Field:has(input:focus) > label{
+    top: 0px;
+    font-size: 1.5vh;
+}
+.Field > label{
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    font-size: 3vh;
+    text-transform: uppercase;
+    font-weight: bolder;
+    transition: 0.5s;
+}
+.titleInput,:global(.titleInputGraf){
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.textAreaInput,:global(.textAreaInputGraf){
+    width: 100%;
+    min-height: 30vh;
+    resize: none;
+    outline: none;
+    font-size: 2vw;
+    margin-bottom: 5px;
+    z-index: 12;
+}
+.textAreaInputL,:global(.textAreaInputLGraf){
+    font-size: 2.5vh;
+    text-transform: uppercase;
+    font-weight: bolder;
+    margin-bottom: 5px;
+}

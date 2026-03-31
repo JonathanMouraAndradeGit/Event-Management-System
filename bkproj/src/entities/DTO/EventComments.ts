@@ -19,4 +19,6 @@ export class EventCommentsDTO{
     event:number
 
     ong:OngDTO
+
+    parent:number
 }

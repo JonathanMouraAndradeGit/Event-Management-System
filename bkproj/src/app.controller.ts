@@ -272,8 +272,39 @@ export class AppController {
   //----------------------------------
   //INSERT COMMENT
   @Post("comment/")
-  async createComment(@Body() obj: EventCommentsDTO) {
-    return await this.eventServ.insertComment(obj)
+  async createComment(@Headers("authorization") auth: string,@Body() obj: EventCommentsDTO) {
+    console.log("the body is ")
+    console.log(obj)
+    try {
+      console.log(auth)
+      let tok = auth.split(" ")[1]
+      const decoded = await this.jwtService.decode(tok);
+      console.log(decoded)
+      console.log("searching user now -------------------------")
+      let res: any = await this.serv.getUserByName(decoded.name)//await this.ongserv.getOngByUserName(decoded.name)
+      console.log("finished user searching------------------------")
+      console.log(obj)
+      obj.user = res.id
+      console.log("this is obj-----------------------------------------------------------")
+      console.log(obj)
+      //return await this.eventServ.OngEvent(res.ondData.id)
+      return await this.eventServ.insertComment(obj)
+    } catch (e) {
+      console.log(e)
+      return { msgError: "erro ao buscar" }
+    }
+  }
+  //UPDATE COMMENT
+  @Put("comment/:id")
+  async updateComment(@Body() obj: EventCommentsDTO,@Param("id") id:number) {
+    console.log("updating comment here "+id)
+    console.log(obj)
+    return await this.eventServ.updateComment(obj,id)
+  }
+  //GET ALIGNED COMMENTS
+  @Get("commentAlign/:id")
+  async getCommentAligned(@Param("id") id:number){
+    return await this.eventServ.getAlignedComments(id)
   }
   //GET COMMENT
   @Get("comment/")
