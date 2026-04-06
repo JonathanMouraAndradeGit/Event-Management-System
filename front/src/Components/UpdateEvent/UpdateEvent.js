@@ -8,9 +8,27 @@ import CalendarSet from "../CalendarSet/CalendarSet"
 import ImgInput from "../imgInput/ImgInput";
 import MapComp from "../MapComp/MapComp";
 import CardUp from "../CardUp/CardUp";
+
+import { useContext } from "react";
+import { ctx } from "../../App";
+
 export default function UpdateEvent() {
+
+    //MSG----------------------------
+    let msgCtx = useContext(ctx)
+    function genMsg(title, description, type) {
+        let dt = new Date().toString()
+        let rdnVal = Math.random().toString()
+        let res = `${dt}${rdnVal}`
+        msgCtx(prev => [
+            ...prev,
+            { id: res, title: title, desc: description, type: type }
+        ])
+    }
+    //--------------------------------
+
     const { id } = useParams();
-    let [obj, setObj] = useState({title:null,description:null,eventDate:null,latlon:null,display:null})//{})
+    let [obj, setObj] = useState({ title: null, description: null, eventDate: null, latlon: null, display: null })//{})
     let [file, setFile] = useState()
     let [rol, setRol] = useState('')
     let [event, setEvent] = useState([])
@@ -76,6 +94,8 @@ export default function UpdateEvent() {
         console.log(error)
         if (valref.current) {
             subsFunction()
+        }else{
+            genMsg("Error","campos inválidos",1)
         }
     }
     function subs2(e) {
@@ -85,6 +105,8 @@ export default function UpdateEvent() {
         console.log(error)
         if (valref.current) {
             execUpdate()
+        }else{
+            genMsg("Error","campos inválidos",1)
         }
         //console.log(error)
     }
@@ -182,6 +204,11 @@ export default function UpdateEvent() {
             method: "POST",
             body: formData
         }).then((e) => e.json())
+        if(!response.msgError){
+            genMsg("Sucesso","operação realizada com sucesso",2)
+        }else{
+            genMsg("Error",response.msgError,1)
+        }
 
         console.log("events")
         console.log(response)
@@ -197,8 +224,11 @@ export default function UpdateEvent() {
             method: "DELETE"
         }).then((e) => e.json())
         if (response.message) {
+            genMsg("Sucesso","evento deletado com sucesso",2)
             clearFields()
             getUserEvents()
+        }else{
+            genMsg("Error","erro ao deletar evento",1)
         }
         console.log(response)
     }
@@ -209,7 +239,7 @@ export default function UpdateEvent() {
 
     }
     function clearFields() {
-        setObj({title:null,description:null,eventDate:null,latlon:null,display:null})
+        setObj({ title: null, description: null, eventDate: null, latlon: null, display: null })
         setError({})
         Opeation.current = true
     }
@@ -242,6 +272,11 @@ export default function UpdateEvent() {
         }).then((e) => e.json())
         console.log("events")
         console.log(response)
+        if(!response.messageerr){
+            genMsg("Sucesso","operação realizada com sucesso",2)
+        }else{
+            genMsg("Error",response.messageerr,1)
+        }
         getUserEvents()
     }
     return (
@@ -253,21 +288,21 @@ export default function UpdateEvent() {
                             <div className={Style.InputBox}>
                                 <div className={Style.ImgFieldCon}>
                                     {(!Opeation.current) ? (
-                                    <ImgInput refId={"userImg1"}
-                                        file={file} setFile={setFile} update={true}
-                                        obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>)
+                                        <ImgInput refId={"userImg1"}
+                                            file={file} setFile={setFile} update={true}
+                                            obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>)
                                         : (
-                                    <ImgInput refId={"userImg1"}
-                                        file={file} setFile={setFile} update={true}
-                                        checkF={checkFile2}
-                                        error={error}
-                                        obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>)
+                                            <ImgInput refId={"userImg1"}
+                                                file={file} setFile={setFile} update={true}
+                                                checkF={checkFile2}
+                                                error={error}
+                                                obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>)
                                     }
                                 </div>
                                 <Field lab="title" type="text" obj={obj} setVal={setObj}
-                                 error={error} checkF={checkFunction}></Field>
+                                    error={error} checkF={checkFunction}></Field>
                                 <Field lab="description" type="text" obj={obj} setVal={setObj}
-                                 error={error} checkF={checkFunction}></Field>
+                                    error={error} checkF={checkFunction}></Field>
                                 <div>
                                     {Opeation.current && (
                                         <button onClick={(e) => subs1(e)}>Submit</button>)

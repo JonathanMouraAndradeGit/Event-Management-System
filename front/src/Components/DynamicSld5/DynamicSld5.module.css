@@ -1,0 +1,106 @@
+.SldDContainer{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+.SldDContainer > img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+.bottomDiv{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 12;
+}
+.btnCon{
+    width: 50%;
+    max-width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    padding: 10px;
+}
+.btnCon > button{
+    width: 15%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+    font-size: 2vw;
+}
+.btnCon > button:hover{
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
+    background-color: black;
+    color: white;
+}
+.CardsCon{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+:global(.CardGlob){
+    width: calc(100% / var(--qtd));
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.5s;
+}
+:global(.CardGlob) > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.globSld{
+    position: absolute;
+    top: 50%;
+    height: 50%;
+    width: calc((50% / 3) - 5px);
+    left:calc(50% + 1px);
+    background-color: red;
+    border-radius: 15px;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.globSld > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.globSld:global(.markerMain){
+    transition-delay: 0.25s;
+    transition: 0.5s;
+    z-index: 5 !important;
+    width: 100% !important;
+    height: 100% !important;
+    top: 0px !important; 
+    left: 0px !important;
+    border-radius: 0px;
+}

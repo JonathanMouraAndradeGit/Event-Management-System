@@ -5,10 +5,30 @@ import Field from "../Field/Field";
 import { useState, useRef } from "react";
 import ImgInput from "../imgInput/ImgInput";
 import { useNavigate } from "react-router-dom";
+
+import { useContext } from "react";
+import { ctx } from "../../App";
+
 export default function ProgressForm() {
+
+    //MSG----------------------------
+    let msgCtx = useContext(ctx)
+    function genMsg(title, description, type) {
+        let dt = new Date().toString()
+        let rdnVal = Math.random().toString()
+        let res = `${dt}${rdnVal}`
+        msgCtx(prev => [
+            ...prev,
+            { id: res, title: title, desc: description, type: type }
+        ])
+    }
+    //--------------------------------
+
+
     let nav = useNavigate()
-    let [obj, setObj] = useState({name:null,password:null,role: "admin",cnpj:null,logo:null,
-        description:null
+    let [obj, setObj] = useState({
+        name: null, password: null, role: "admin", cnpj: null, logo: null,
+        description: null
     })
     let [file, setFile] = useState()
     //ERROR
@@ -36,8 +56,11 @@ export default function ProgressForm() {
             method: "POST",
             body: formData//JSON.stringify(newObj)
         }).then((e) => e.json())
-        if(!response.messageerr){
+        if (!response.messageerr) {
+            genMsg("Sucesso","cadastro realizado com sucesso",2)
             nav("/frm3")
+        }else{
+            genMsg("Error","erro ao cadastrar usuário",1)
         }
         console.log(response)
     }
@@ -114,14 +137,16 @@ export default function ProgressForm() {
             return true
         }
     }
-    function subs(e){
+    function subs(e) {
         e.preventDefault()
-        checkFunction(false,"")
-        console.log("is valid "+valref.current)
-        if(valref.current){
+        checkFunction(false, "")
+        console.log("is valid " + valref.current)
+        if (valref.current) {
             //submitFunc(e)
             printRes()
 
+        }else{
+            genMsg("Error","campos inválidos",1)
         }
         //console.log(error)
     }

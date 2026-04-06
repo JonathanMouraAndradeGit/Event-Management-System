@@ -5,7 +5,26 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import MapComp from "../MapComp/MapComp";
 import CommentCon3 from "../CommentCon3/CommentCon3";
+
+import { useContext } from "react";
+import { ctx } from "../../App";
+
 export default function EventPage() {
+
+    //MSG----------------------------
+    let msgCtx = useContext(ctx)
+    function genMsg(title, description, type) {
+        let dt = new Date().toString()
+        let rdnVal = Math.random().toString()
+        let res = `${dt}${rdnVal}`
+        msgCtx(prev => [
+            ...prev,
+            { id: res, title: title, desc: description, type: type }
+        ])
+    }
+    //--------------------------------
+
+
     let [obj, setObj] = useState({})
     let [rol, setRol] = useState('')
     let [isSubscribe, setIsSubscribe] = useState(true)
@@ -65,8 +84,11 @@ export default function EventPage() {
             console.log(response)
             //if(response){
             //}
+            genMsg("Sucesso","operação realizada com sucesso",2)
         } catch (e) {
             console.log(`Error: ${e}`)
+
+            genMsg("Error","Erro ao realizar operação",1)
         }
         checkSubscription(rol)
     }

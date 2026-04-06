@@ -144,7 +144,7 @@ export class OngService {
             await this.userRep.save(usr)
 
             let newtok = await this.userServ.genoken({ name: usr.name })
-            return { msg: "atualizado com sucesso ", token: newtok }
+            return { msg: "atualizado com sucesso ", token: newtok,file:usr.file,name:usr.name }
 
         } catch (e) {
             return { messageerr: "erro ao atualizar ong" }

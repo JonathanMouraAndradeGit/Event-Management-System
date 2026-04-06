@@ -1,15 +1,34 @@
 import React, { useState } from "react";
 import Style from "./MenageUser.module.css"
-import { useEffect,useRef } from "react";
+import { useEffect, useRef } from "react";
 import Field from "../Field/Field";
 import ImgInput from "../imgInput/ImgInput";
 import { useNavigate } from "react-router-dom";
-export default function MenageUser() {
+
+import { useContext } from "react";
+import { ctx } from "../../App";
+
+
+export default function MenageUser(props) {
+
+    //MSG----------------------------
+    let msgCtx = useContext(ctx)
+    function genMsg(title, description, type) {
+        let dt = new Date().toString()
+        let rdnVal = Math.random().toString()
+        let res = `${dt}${rdnVal}`
+        msgCtx(prev => [
+            ...prev,
+            { id: res, title: title, desc: description, type: type }
+        ])
+    }
+    //--------------------------------
+
     let nav = useNavigate()
     let [rol, setRol] = useState('')
     let [file, setFile] = useState()
-    const [obj, setObj] = useState({name:null,password:null,role: "user" })
-    let [eventLst,setEventLst] = useState([])
+    const [obj, setObj] = useState({ name: null, password: null, role: "user" })
+    let [eventLst, setEventLst] = useState([])
 
     //ERROR
     let [error, setError] = useState({})
@@ -29,7 +48,7 @@ export default function MenageUser() {
                     }
                 }
             } else {
-                if(el != "status"){
+                if (el != "status") {
                     if (!checkOne ? true : el == fieldName) {
                         setError(prev => ({ ...prev, [el]: "nao pode ser nulo" }))
                         console.log("nullable " + el)
@@ -49,16 +68,18 @@ export default function MenageUser() {
         }
     }
 
-    function subs(e){
+    function subs(e) {
         e.preventDefault()
-        checkFunction(false,"")
-        console.log("is valid "+valref.current)
+        checkFunction(false, "")
+        console.log("is valid " + valref.current)
         console.log(error)
-        if(valref.current){
+        if (valref.current) {
             //submitFunc(e)
             //printRes()
             //submit(e)
             DealUpdate(e)
+        }else{
+            genMsg("Error","campos inválidos",1)
         }
         //console.log(error)
     }
@@ -71,7 +92,7 @@ export default function MenageUser() {
             setRol(obj1.role)
             //console.log(obj1.role)
             getMenageUser()
-            if(obj1.role == "admin"){
+            if (obj1.role == "admin") {
 
                 getUserEvents()
             }
@@ -157,25 +178,29 @@ export default function MenageUser() {
             body: formData//JSON.stringify(trueObj)
         }).then((e) => e.json())
         console.log(response)
-        if(response.msg){
+        if (response.msg) {
             let tok = JSON.parse(localStorage.getItem("token"))
-            let objls = {name:obj.name,role:tok.role,token:response.token}
+            let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
             //tok.name = obj.name
             console.log("new local storage is ")
             console.log(objls)
             let tres = JSON.stringify(objls)
-            localStorage.setItem("token",tres)
+            localStorage.setItem("token", tres)
+            props.setAuth(objls)
+            genMsg("Sucesso","operação realizada com sucesso",2)
+        }else{
+            genMsg("Erro","Erro ao realizar operação",1)
         }
         getMenageUser()
 
     }
-    function DealUpdate(e){
+    function DealUpdate(e) {
         let tok = JSON.parse(localStorage.getItem("token"))
-        
-        if(tok.role == "admin"){
+
+        if (tok.role == "admin") {
             update(e)
         }
-        if(tok.role == "user"){
+        if (tok.role == "user") {
             updateUsr(e)
         }
     }
@@ -204,19 +229,23 @@ export default function MenageUser() {
             body: formData//JSON.stringify(obj)
         }).then((e) => e.json())
         console.log(response)
-        if(response.msg){
+        if (response.msg) {
             let tok = JSON.parse(localStorage.getItem("token"))
-            let objls = {name:obj.name,role:tok.role,token:response.token}
+            let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
             //tok.name = obj.name
             console.log("new local storage is ")
             console.log(objls)
             let tres = JSON.stringify(objls)
-            localStorage.setItem("token",tres)
+            localStorage.setItem("token", tres)
+            props.setAuth(objls)
+            genMsg("Sucesso","operação realizada com sucesso",2)
+        }else{
+            genMsg("Error","erro ao realizar operação",1)
         }
         getMenageUser()
 
     }
-    async function getUserEvents(){
+    async function getUserEvents() {
         let tok = JSON.parse(localStorage.getItem("token"))
         let response = await fetch(`http://[::1]:4000/eventOngEvents/`, {
             headers: {
@@ -227,12 +256,12 @@ export default function MenageUser() {
         }).then((e) => e.json())
         console.log("events")
         console.log(response)
-        if(!response.msgError){
+        if (!response.msgError) {
             setEventLst(response)
         }
         //setEventLst()
     }
-    function gotoUpdate(id){
+    function gotoUpdate(id) {
         nav(`/frm6/${id}`)
     }
     return (
@@ -241,14 +270,14 @@ export default function MenageUser() {
                 <div className={Style.contentBlock}>
                     <div className={Style.ImgFieldCon}>
                         <ImgInput refId={"userImg1"}
-                        file={file} setFile={setFile} update={true}
-                        obj={obj} lab="file" path="http://localhost:4000/uploads/"
+                            file={file} setFile={setFile} update={true}
+                            obj={obj} lab="file" path="http://localhost:4000/uploads/"
                         ></ImgInput>
                     </div>
                     <Field lab="name" type="text" obj={obj} setVal={setObj}
-                    error={error} checkF={checkFunction}></Field>
+                        error={error} checkF={checkFunction}></Field>
                     <Field lab="password" type="password" obj={obj} setVal={setObj}
-                    error={error} checkF={checkFunction}></Field>
+                        error={error} checkF={checkFunction}></Field>
                     <button onClick={(e) => subs(e)}>update</button>
                 </div>
             </div>
@@ -256,21 +285,21 @@ export default function MenageUser() {
                 <div className={Style.sideContent}>
                     <div className={Style.contentBlock}>
                         <Field lab="cnpj" type="text" obj={obj} setVal={setObj}
-                        error={error} checkF={checkFunction}></Field>
+                            error={error} checkF={checkFunction}></Field>
                         <Field lab="description" type="text" obj={obj} setVal={setObj}
-                        error={error} checkF={checkFunction}></Field>
+                            error={error} checkF={checkFunction}></Field>
                         <Field lab="logo" type="text" obj={obj} setVal={setObj}
-                        error={error} checkF={checkFunction}></Field>
+                            error={error} checkF={checkFunction}></Field>
                     </div>
                     <div className={Style.contentBlock}>
                         <div className={Style.lstStl}>
                             {eventLst.length > 0 && (
-                                eventLst.map((el,i)=>{
+                                eventLst.map((el, i) => {
                                     //console.log(el.file)
                                     return <div key={`lstItemCard${i}`}
-                                    className={Style.lstItem} onClick={()=>gotoUpdate(el.id)}>
-                                        <img src={`http://localhost:4000/uploads/${el.file}`}/><p>{el.title}</p>
-                                        </div>
+                                        className={Style.lstItem} onClick={() => gotoUpdate(el.id)}>
+                                        <img src={`http://localhost:4000/uploads/${el.file}`} /><p>{el.title}</p>
+                                    </div>
                                 })
                             )}
                         </div>

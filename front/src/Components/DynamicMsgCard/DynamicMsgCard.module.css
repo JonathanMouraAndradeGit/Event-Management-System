@@ -1,0 +1,130 @@
+.msgCon{
+    width: 100%;
+    height: 15vh;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0,0.5);
+    border-radius: 5px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    transition: 0.5s;
+    margin-left: 30vw;
+    background-color: white;
+    overflow: hidden;
+    z-index: 30;
+
+    /*background-image: linear-gradient(to top right, red , black);*/
+
+    position: relative;
+
+    /*
+    animation-name: anim1;
+    animation-delay: 0s;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;*/
+
+}
+:global(.Extmsg){
+    animation-name: anim3;
+    animation-delay: 1.2s;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+}
+
+
+
+.spn{
+    width: 0px;
+    height: 5px;
+    min-height: 5px;
+    /*background-color: red;*/
+    transition: 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    animation-name: anim2;
+    animation-delay: 0s;
+    animation-duration: 1.9s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+}
+
+@keyframes anim2{
+    from {
+        width: 0%;
+    }to{
+        width: 100%;
+    }
+}
+.ContentCon{
+    height: calc(100% - 5px);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5px;
+}
+.imgCon2{
+    height: 100%;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.imgCon2 > img{
+    width: 90%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+    filter: invert(1);
+}
+
+.txtCon{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 5px;
+}
+.title{
+    font-size: 3vw;
+    text-transform: uppercase;
+    font-family: Arial;
+    font-weight: bolder;
+    text-align:left;
+    color: white;
+}
+.desc{
+    font-size: 1vw;
+    font-family: Arial;
+    text-align: left;
+    color: white;
+}
+
+.imgCon{
+    right: 0px;
+    top: 0px;
+    width: 10%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    margin: 5px;
+}
+.imgCon > img{
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    object-position: center;
+}

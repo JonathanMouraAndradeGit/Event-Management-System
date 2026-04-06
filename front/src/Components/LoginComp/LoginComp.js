@@ -2,12 +2,32 @@ import React, { useState,useRef } from "react";
 import Style from "./LoginComp.module.css"
 import Field from "../Field/Field";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { ctx } from "../../App";
 export default function LoginComp(props) {
+    let msgCtx = useContext(ctx)
+
     let nav = useNavigate()
     let [obj, setObj] = useState({name:null,password:null})
     //ERROR
     let [error, setError] = useState({})
     let valref = useRef(false)
+
+    function genMsg(title,description,type) {
+        let dt = new Date().toString()
+        let rdnVal = Math.random().toString()
+        let res = `${dt}${rdnVal}`
+        //let arr = msg
+        //console.log({ id: res, title: "error", desc: "error description" })
+        //arr.push({id:res,title:"error",desc:"error description"})
+        //setMsg(arr)
+        msgCtx(prev => [
+            ...prev,
+            { id: res, title: title, desc: description,type: type }
+        ])
+
+        //console.log(msg)
+    }
 
     function checkFunction(checkOne, fieldName) {
         let valid = true
@@ -66,6 +86,8 @@ export default function LoginComp(props) {
             //submitFunc(e)
             //printRes()
             submit(e)
+        }else{
+            genMsg("Error","campos inválidos",1)
         }
         //console.log(error)
     }
@@ -89,7 +111,10 @@ export default function LoginComp(props) {
             localStorage.setItem("token",jweb)
             props.setAuth(objls)
             //localStorage.setItem("")
+            genMsg("Sucesso","login realizado com sucesso",2)
             nav("/")
+        }else{
+            genMsg("Error","credenciais inválidas",1)
         }
         /*
         let response = await fetch("http://[::1]:4000/usr", {

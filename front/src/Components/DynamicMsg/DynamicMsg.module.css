@@ -1,0 +1,16 @@
+.Container{
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    /*background-color: yellow;*/
+    width: 30vw;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    height: fit-content;
+    z-index: 20;
+    padding: 5px;
+    z-index: 30;
+}

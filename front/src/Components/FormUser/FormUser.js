@@ -3,7 +3,24 @@ import Style from "./FormUser.module.css"
 import Field from "../Field/Field";
 import ImgInput from "../imgInput/ImgInput";
 import { useNavigate } from "react-router-dom";
+
+import { useContext } from "react";
+import { ctx } from "../../App";
 export default function FormUser() {
+
+    //MSG----------------------------
+    let msgCtx = useContext(ctx)
+    function genMsg(title,description,type) {
+        let dt = new Date().toString()
+        let rdnVal = Math.random().toString()
+        let res = `${dt}${rdnVal}`
+        msgCtx(prev => [
+            ...prev,
+            { id: res, title: title, desc: description,type: type }
+        ])
+    }
+    //--------------------------------
+
     let nav = useNavigate()
     const [obj, setObj] = useState({name:null,password:null, role: "user" })
     let [file, setFile] = useState()
@@ -31,7 +48,10 @@ export default function FormUser() {
         }).then((e) => e.json())
         console.log(response)
         if(!response.msgerror){
+            genMsg("Sucesso","cadastro realizado com sucesso",2)
             nav("/frm3")
+        }else{
+            genMsg("Error","erro ao cadastrar usuário",1)
         }
         /*
         let response = await fetch("http://[::1]:4000/authck/",{
@@ -103,6 +123,8 @@ export default function FormUser() {
         console.log("is valid "+valref.current)
         if(valref.current){
             submitFunc(e)
+        }else{
+            genMsg("Error","campos inválidos",1)
         }
         //console.log(error)
     }

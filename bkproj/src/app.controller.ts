@@ -11,6 +11,7 @@ import { EventService } from './service/EventsService.Service';
 import { EventCommentsDTO } from './entities/DTO/EventComments';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtService } from '@nestjs/jwt';
+import multer from 'multer';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService, private serv: UserServ, private ongserv: OngService,

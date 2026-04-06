@@ -1,6 +1,7 @@
 import React from "react";
 import Style from "./Main.module.css"
 import SldDynamic1 from "../SldDynamic1/SldDynamic";
+import DynamicSld5 from "../DynamicSld5/DynamicSld5";
 export default function Main() {
     return (
         <div className={Style.MainContainer}>
@@ -19,6 +20,7 @@ export default function Main() {
                     <button className={Style.btnSlc}>click</button>
                 </div>
             </div>
+            
             <div className={Style.CardLst}>
                 <div className={Style.CardItem}>
                     <div className={Style.IConC}>
@@ -63,6 +65,7 @@ export default function Main() {
                     </div>
                 </div>
             </div>
+            <DynamicSld5></DynamicSld5>
             <div className={Style.SldCon}>
                 <SldDynamic1></SldDynamic1>
             </div>

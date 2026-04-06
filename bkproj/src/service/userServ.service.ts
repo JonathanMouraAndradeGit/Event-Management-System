@@ -74,7 +74,7 @@ export class UserServ {
             //console.log("//////////// this is generating a token with name")
             //console.log(usrArr.name)
             let newtok = await this.genoken({name:usrArr.name})
-            return {msg:"atualizado com sucesso",token:newtok}
+            return {msg:"atualizado com sucesso",token:newtok,file:usrArr.file}
         } catch (e) {
             console.log(e)
             return {msgerror:"erro ao atualizar o usuário"}

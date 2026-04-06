@@ -134,7 +134,7 @@ export default function CommentCon3(props) {
             return []
         }
     }
-    function addBDComments(objC, parentC) {
+    function addBDComments(objC, parentC,layer) {
         let tok = JSON.parse(localStorage.getItem("token"))
         console.log("attempSearch")
         //let vl = e.target.closest("[name='mainC']")
@@ -195,10 +195,12 @@ export default function CommentCon3(props) {
         ///BUTTON
         let CommentbtnConGraf = document.createElement("div")
         CommentbtnConGraf.classList.add("CommentbtnConGraf")
-        let img1 = document.createElement("img")
-        img1.setAttribute("src", "/static/add.png")
-        img1.addEventListener("click", (e) => addComment(e,objC.id))
-        CommentbtnConGraf.appendChild(img1)
+        if( layer < 2){
+            let img1 = document.createElement("img")
+            img1.setAttribute("src", "/static/add.png")
+            img1.addEventListener("click", (e) => addComment(e,objC.id))
+            CommentbtnConGraf.appendChild(img1)
+        }
 
         if (tok.name == objC.user.name) {
             let img2 = document.createElement("img")
@@ -242,16 +244,19 @@ export default function CommentCon3(props) {
     async function loadCOmments() {
         let objarr = await getComments()
         objarr.forEach((el, i) => {
-            if(!el.parentId){
-                forEv(el, "answers", ref1layerc.current)
+            if(el.parentId == null){
+                forEv(el, "answers", ref1layerc.current,0)
             }
         })
     }
-    function forEv(obj, name, parent) {
-        let place = addBDComments(obj, parent)
-        if (obj[name] && obj[name].length > 0) {
+    function forEv(obj, name, parent,layer) {
+        console.log("here is the obj ------------------------/////////////////////////")
+        console.log(obj.id)
+        console.log(obj[name])
+        let place = addBDComments(obj, parent,layer)
+        if (Array.isArray(obj[name]) && obj[name].length > 0) {
             obj[name].forEach((el, i) => {
-                forEv(el, name, place)
+                forEv(el, name, place,(layer+1))
             })
         }
     }
