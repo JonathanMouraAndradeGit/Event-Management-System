@@ -22,7 +22,7 @@ export default function FormUser() {
     //--------------------------------
 
     let nav = useNavigate()
-    const [obj, setObj] = useState({name:null,password:null, role: "user" })
+    const [obj, setObj] = useState({name:null,email:null,password:null, role: "user" })
     let [file, setFile] = useState()
     let [error,setError] = useState({})
     //let [isValid,SetIsValid] = useState(false)
@@ -139,6 +139,7 @@ export default function FormUser() {
                         obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput>
                 </div>
                 <Field lab="name" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                <Field lab="email" type="email" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
                 <Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}
                 ></Field>
                 <button onClick={(e) => subs(e)}>submit</button>

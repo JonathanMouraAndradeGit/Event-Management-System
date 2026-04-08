@@ -74,6 +74,7 @@ export class OngService {
 
             const usr = this.userRep.create({
                 name: obj.name,
+                email: obj.email,
                 password: obj.password,
                 file:obj.file,
                 userRole: [rol],
@@ -84,14 +85,13 @@ export class OngService {
                 cnpj: obj.ongData.cnpj,
                 status: obj.ongData.status,
                 description: obj.ongData.description,
-                logo: obj.ongData.logo,
+                //logo: obj.ongData.logo,
                 events: [],
                 userData: usr
             })
 
             usr.ondData = ong
 
-            // 🔥 salva tudo de uma vez (com cascade)
             let res = await this.userRep.save(usr)
             return res
 
@@ -104,7 +104,9 @@ export class OngService {
         try {
             let OngObj: any = this.onge.create({
                 cnpj: obj.cnpj, status: obj.status,
-                description: obj.description, logo: obj.logo, events: [], userData: usr
+                description: obj.description, 
+                //logo: obj.logo, 
+                events: [], userData: usr
             })
             return OngObj
         } catch (e) {
@@ -131,12 +133,13 @@ export class OngService {
             }
             usr.name = obj.name ?? usr.name
             usr.password = obj.password ?? usr.password
+            usr.email = obj.email ?? usr.email
             usr.file = obj.file ?? obj.file
 
             ong.cnpj = obj.ongData.cnpj ?? ong.cnpj
             ong.status = obj.ongData.status ?? ong.status
             ong.description = obj.ongData.description ?? ong.description
-            ong.logo = obj.ongData.logo ?? ong.logo
+            //ong.logo = obj.ongData.logo ?? ong.logo
 
             await this.onge.save(ong)
             console.log("////////updating user")

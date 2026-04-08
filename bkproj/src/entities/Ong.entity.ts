@@ -12,8 +12,8 @@ export class OngUser{
     status:boolean
     @Column()
     description:string
-    @Column()
-    logo:string
+    //@Column()
+    //logo:string
 
     @OneToOne(() => UserE, (user) => user.ondData)
     userData: UserE

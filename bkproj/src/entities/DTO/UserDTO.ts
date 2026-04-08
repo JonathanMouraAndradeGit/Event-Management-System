@@ -5,6 +5,9 @@ export class UserDTO{
     id:number
     @IsString()
     @IsNotEmpty()
+    email:string
+    @IsString()
+    @IsNotEmpty()
     name:string
     @IsString()
     @IsNotEmpty()

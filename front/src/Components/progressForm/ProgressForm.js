@@ -27,7 +27,7 @@ export default function ProgressForm() {
 
     let nav = useNavigate()
     let [obj, setObj] = useState({
-        name: null, password: null, role: "admin", cnpj: null, logo: null,
+        name: null,email:null, password: null, role: "admin", cnpj: null, //logo: null,
         description: null
     })
     let [file, setFile] = useState()
@@ -79,13 +79,14 @@ export default function ProgressForm() {
     function toObj() {
         let newObj = {
             name: obj.name,
+            email: obj.email,
             password: obj.password,
             role: "admin",
             ongData: {
                 cnpj: obj.cnpj,
                 status: true,
                 description: obj.description,
-                logo: obj.logo
+                //logo: obj.logo
             }
         }
         return newObj
@@ -165,9 +166,9 @@ export default function ProgressForm() {
                 <Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
             </div>
             <div id='side1' className={Style.sld}>
+                <Field lab="email" type="email" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
                 <Field lab="cnpj" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
                 <Field lab="description" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
-                <Field lab="logo" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
             </div>
             <div id='side1' className={Style.sld}>
                 <button onClick={(e) => subs(e)}>submit</button>
@@ -175,3 +176,7 @@ export default function ProgressForm() {
         </SldInputComp>
     )
 }
+
+/*
+<Field lab="logo" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+*/

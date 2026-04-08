@@ -40,7 +40,7 @@ export class UserServ {
         arr.push(rol[0])
         console.log(arr)
         try {
-            let usrc: any = this.injectRep.create({ name: usr.name, password: usr.password, userRole: arr,file:usr.file })
+            let usrc: any = this.injectRep.create({ name: usr.name,email:usr.email, password: usr.password, userRole: arr,file:usr.file })
             let vol:any = this.injectValunteer.create({userD:usrc,subscription:[]})
             usrc.volunData = vol
             usrc = await this.injectRep.save(usrc)
@@ -68,6 +68,7 @@ export class UserServ {
                 }
             }
             usrArr.name = usr.name ?? usrArr.name;
+            usrArr.email = usr.email ?? usrArr.email;
             usrArr.password = usr.password ?? usrArr.password;
             usrArr.file = usr.file ?? usrArr.file;
             await this.injectRep.save(usrArr)

@@ -57,8 +57,8 @@ export default function CommentCon3(props) {
         let img1 = document.createElement("img")
         img1.setAttribute("src", "/static/add.png")
         //img1.addEventListener("click", (e) => subsBtn(e, sib))subsComment(parent)
-        let commentId=null
-        img1.addEventListener("click", (e) =>subsBtn(e, ref1layerc.current,commentId)) //subsComment())
+        let commentId = null
+        img1.addEventListener("click", (e) => subsBtn(e, ref1layerc.current, commentId, 0)) //subsComment())
         let img2 = document.createElement("img")
         img2.setAttribute("src", "/static/delete.png")
         img2.addEventListener("click", () => deleteComment(ref1layerc.current))
@@ -134,7 +134,7 @@ export default function CommentCon3(props) {
             return []
         }
     }
-    function addBDComments(objC, parentC,layer) {
+    function addBDComments(objC, parentC, layer) {
         let tok = JSON.parse(localStorage.getItem("token"))
         console.log("attempSearch")
         //let vl = e.target.closest("[name='mainC']")
@@ -195,10 +195,11 @@ export default function CommentCon3(props) {
         ///BUTTON
         let CommentbtnConGraf = document.createElement("div")
         CommentbtnConGraf.classList.add("CommentbtnConGraf")
-        if( layer < 2){
+        if (layer < 2) {
             let img1 = document.createElement("img")
             img1.setAttribute("src", "/static/add.png")
-            img1.addEventListener("click", (e) => addComment(e,objC.id))
+            let next = (Number(layer) + 1)
+            img1.addEventListener("click", (e) => addComment(e, objC.id, next))
             CommentbtnConGraf.appendChild(img1)
         }
 
@@ -206,7 +207,7 @@ export default function CommentCon3(props) {
             let img2 = document.createElement("img")
             img2.setAttribute("src", "/static/edit.png")
             //img2.addEventListener("click", () => deleteComment(sib))
-            img2.addEventListener("click",(e)=>upDateComment(e,objC.id))
+            img2.addEventListener("click", (e) => upDateComment(e, objC.id, layer))
             CommentbtnConGraf.appendChild(img2)
         }
 
@@ -244,26 +245,26 @@ export default function CommentCon3(props) {
     async function loadCOmments() {
         let objarr = await getComments()
         objarr.forEach((el, i) => {
-            if(el.parentId == null){
-                forEv(el, "answers", ref1layerc.current,0)
+            if (el.parentId == null) {
+                forEv(el, "answers", ref1layerc.current, 0)
             }
         })
     }
-    function forEv(obj, name, parent,layer) {
+    function forEv(obj, name, parent, layer) {
         console.log("here is the obj ------------------------/////////////////////////")
         console.log(obj.id)
         console.log(obj[name])
-        let place = addBDComments(obj, parent,layer)
+        let place = addBDComments(obj, parent, layer)
         if (Array.isArray(obj[name]) && obj[name].length > 0) {
             obj[name].forEach((el, i) => {
-                forEv(el, name, place,(layer+1))
+                forEv(el, name, place, (layer + 1))
             })
         }
     }
     //-------------------------------------------------------------------------------------------------------
     //COMMENT FUNCTIONS
     //-------------------------------------------------------------------------------------------------------
-    function addComment(e,idC) {
+    function addComment(e, idC, layer) {
         console.log("attempSearch")
         let vl = e.target.closest("[name='mainC']")
         //let vl = e.target.closest(`.${Style.ItemCon}`)
@@ -326,13 +327,16 @@ export default function CommentCon3(props) {
         ///-----
         let CommentbtnConGraf = document.createElement("div")
         CommentbtnConGraf.classList.add("CommentbtnConGraf")
-        let img1 = document.createElement("img")
-        img1.setAttribute("src", "/static/add.png")
-        img1.addEventListener("click", (e) => subsBtn(e, sib,idC))
+        //if (layer < 2) {
+            let img1 = document.createElement("img")
+            img1.setAttribute("src", "/static/add.png")
+            img1.addEventListener("click", (e) => subsBtn(e, sib, idC, layer))
+            CommentbtnConGraf.appendChild(img1)
+        //}
         let img2 = document.createElement("img")
         img2.setAttribute("src", "/static/delete.png")
         img2.addEventListener("click", () => deleteComment(sib))
-        CommentbtnConGraf.appendChild(img1)
+        //CommentbtnConGraf.appendChild(img1)
         CommentbtnConGraf.appendChild(img2)
 
         ///-----
@@ -361,24 +365,24 @@ export default function CommentCon3(props) {
         //sib.appendChild(doc)
         sib.insertBefore(doc, sib.children[0])
     }
-    async function subsBtn(e, sib,idC) {
-        console.log("Submitting comment")
+    async function subsBtn(e, sib, idC, layer) {
+        console.log("Submitting comment the layer is " + layer)
         //console.log(msg)
         let res = await subsComment(idC)
         if (res) {
             console.log(msg2.current)
-            insrtAt(sib, e,res.id)
+            insrtAt(sib, e, res.id, layer)
         } else {
             deleteComment(sib)
             msg2.current = null
         }
     }
-    function insrtAt(sib, e,idC) {
+    function insrtAt(sib, e, idC, layer) {
         sib.removeChild(sib.children[0])
-        addEdit(e, sib,idC)
+        addEdit(e, sib, idC, layer)
     }
-    function addEdit(e, sib,idC) {
-        console.log("attempSearch")
+    function addEdit(e, sib, idC, layer) {
+        console.log("attempSearch the layer is " + layer)
         //let vl = e.target.closest("[name='mainC']")
         //let vl = e.target.closest(`.${Style.ItemCon}`)
         //let sib = vl.nextElementSibling;
@@ -420,13 +424,20 @@ export default function CommentCon3(props) {
         ///-----
         let CommentbtnConGraf = document.createElement("div")
         CommentbtnConGraf.classList.add("CommentbtnConGraf")
-        let img1 = document.createElement("img")
-        img1.setAttribute("src", "/static/add.png")
-        img1.addEventListener("click", (e) => addComment(e,idC)) //addEdit(e))
+
+        console.log(`operation result is ${(Number(layer) + 1)} < 2 ${(Number(layer) + 1) < 2}`)
+        if ((Number(layer)) < 2) {
+            let img1 = document.createElement("img")
+            img1.setAttribute("src", "/static/add.png")
+            let next = (Number(layer) + 1)
+            img1.addEventListener("click", (e) => addComment(e, idC, next)) //addEdit(e))
+            CommentbtnConGraf.appendChild(img1)
+        }
+
         let img2 = document.createElement("img")
         img2.setAttribute("src", "/static/edit.png")
-        img2.addEventListener("click",(e)=>upDateComment(e,idC))
-        CommentbtnConGraf.appendChild(img1)
+        img2.addEventListener("click", (e) => upDateComment(e, idC, layer))
+        //CommentbtnConGraf.appendChild(img1)
         CommentbtnConGraf.appendChild(img2)
 
         ///-----
@@ -452,7 +463,7 @@ export default function CommentCon3(props) {
     //---------------------------------------------------------------------------------------------
     //UPDATE COMMENT
     //---------------------------------------------------------------------------------------------
-    function upDateComment(e,idC) {
+    function upDateComment(e, idC, layer) {
         let doc = e.target.closest("[name='mainC']")
         let res = doc.children[1].children[0]
         let text = deleteAllChildren(res)
@@ -481,13 +492,13 @@ export default function CommentCon3(props) {
         CommentbtnConGraf.classList.add("CommentbtnConGraf")
         let img1 = document.createElement("img")
         img1.setAttribute("src", "/static/add.png")
-        img1.addEventListener("click",async (e)=>{
+        img1.addEventListener("click", async (e) => {
             //console.log("updating")
             let result = await updateCommentSubs(idC)
-            if(result){
-                ReInsert(e,idC,msg2.current)
-            }else{
-                ReInsert(e,idC,text)
+            if (result) {
+                ReInsert(e, idC, msg2.current, layer)
+            } else {
+                ReInsert(e, idC, text, layer)
             }
             //ReInsert(e,msg2.current)
         })
@@ -526,7 +537,7 @@ export default function CommentCon3(props) {
     async function updateCommentSubs(idC) {
         let tok = JSON.parse(localStorage.getItem("token"))
         let obj1 = {
-            id:idC,
+            id: idC,
             event: props.eventId,
             user: 0,
             content: msg2.current
@@ -553,10 +564,11 @@ export default function CommentCon3(props) {
         }
         //console.log(response)
     }
-    function ReInsert(e,idC,txt){
+    function ReInsert(e, idC, txt, layer) {
+        console.log("reinsert here the layer is "+layer)
         let imgj = JSON.parse(localStorage.getItem("token"))
         let usrImg = `http://localhost:4000/uploads/${imgj.file}`
-        
+
         let doc = e.target.closest("[name='mainC']")
         let res = doc.children[1].children[0]
         deleteAllChildren2(res)
@@ -575,13 +587,18 @@ export default function CommentCon3(props) {
         ///-----
         let CommentbtnConGraf = document.createElement("div")
         CommentbtnConGraf.classList.add("CommentbtnConGraf")
-        let img1 = document.createElement("img")
-        img1.setAttribute("src", "/static/add.png")
-        img1.addEventListener("click", (e) => addComment(e,idC)) //addEdit(e))
+
+        if (layer < 2) {
+            let img1 = document.createElement("img")
+            img1.setAttribute("src", "/static/add.png")
+            let next = (Number(layer) + 1)
+            img1.addEventListener("click", (e) => addComment(e, idC, next)) //addEdit(e))
+            CommentbtnConGraf.appendChild(img1)
+        }
         let img2 = document.createElement("img")
         img2.setAttribute("src", "/static/edit.png")
-        img2.addEventListener("click",(e)=>upDateComment(e,idC))
-        CommentbtnConGraf.appendChild(img1)
+        img2.addEventListener("click", (e) => upDateComment(e, idC, layer))
+        //CommentbtnConGraf.appendChild(img1)
         CommentbtnConGraf.appendChild(img2)
 
         ///-----

@@ -27,7 +27,7 @@ export default function MenageUser(props) {
     let nav = useNavigate()
     let [rol, setRol] = useState('')
     let [file, setFile] = useState()
-    const [obj, setObj] = useState({ name: null, password: null, role: "user" })
+    const [obj, setObj] = useState({ name: null,email:null, password: null, role: "user" })
     let [eventLst, setEventLst] = useState([])
 
     //ERROR
@@ -131,13 +131,14 @@ export default function MenageUser(props) {
         let newObj = {
             id: obj.trueId,
             name: obj.name,
+            email: obj.email,
             password: obj.password,
             role: lst.role,
             ongData: {
                 cnpj: obj.cnpj,
                 status: true,
                 description: obj.description,
-                logo: obj.logo
+                //logo: obj.logo
             }
         }
         return newObj
@@ -276,6 +277,8 @@ export default function MenageUser(props) {
                     </div>
                     <Field lab="name" type="text" obj={obj} setVal={setObj}
                         error={error} checkF={checkFunction}></Field>
+                    <Field lab="email" type="email" obj={obj} setVal={setObj}
+                        error={error} checkF={checkFunction}></Field>
                     <Field lab="password" type="password" obj={obj} setVal={setObj}
                         error={error} checkF={checkFunction}></Field>
                     <button onClick={(e) => subs(e)}>update</button>
@@ -287,8 +290,6 @@ export default function MenageUser(props) {
                         <Field lab="cnpj" type="text" obj={obj} setVal={setObj}
                             error={error} checkF={checkFunction}></Field>
                         <Field lab="description" type="text" obj={obj} setVal={setObj}
-                            error={error} checkF={checkFunction}></Field>
-                        <Field lab="logo" type="text" obj={obj} setVal={setObj}
                             error={error} checkF={checkFunction}></Field>
                     </div>
                     <div className={Style.contentBlock}>
@@ -309,3 +310,8 @@ export default function MenageUser(props) {
         </div>
     )
 }
+
+/*
+<Field lab="logo" type="text" obj={obj} setVal={setObj}
+                            error={error} checkF={checkFunction}></Field>
+*/

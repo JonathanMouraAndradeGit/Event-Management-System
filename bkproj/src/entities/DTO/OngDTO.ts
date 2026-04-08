@@ -12,7 +12,7 @@ export class OngDTO{
     @IsString()
     description:string
     @IsNotEmpty()
-    @IsString()
-    logo:string
+    //@IsString()
+    //logo:string
     userData:number
 }
