@@ -54,6 +54,8 @@ export default function DynamicSld5() {
             resp.style.zIndex = "0"
             movArr(side)
             globC.current.style.transition = "0.5s"
+
+            globC.current.style.filter = `brightness(0.5)`
             setTimeout(() => {
                 imgRefs.current.setAttribute("src",selectedImg)
                 resp.style.opacity = "0"
@@ -67,6 +69,7 @@ export default function DynamicSld5() {
                 globC.current.classList.remove("markerMain")
                 globC.current.style.transition = "0s"
                 resp.style.opacity = "1"
+                globC.current.style.filter = `brightness(1)`
             }, 510)
             setTimeout(()=>{
                 globC.current.style.transition = "0s"
@@ -89,7 +92,7 @@ export default function DynamicSld5() {
 
             globC.current.classList.add("markerMain")
             globC.current.style.transition = "0s"
-
+            globC.current.style.filter = `brightness(0.5)`
             setTimeout(() => {
                 //imgRefs.current.setAttribute("src",selectedImg)
                 globC.current.classList.remove("markerMain")
@@ -103,6 +106,7 @@ export default function DynamicSld5() {
                 last.style.width = `${100 / arr.length}%`
                 resp.style.zIndex = "1"
                 //globC.current.classList.remove("markerMain")
+                globC.current.style.filter = `brightness(1)`
             }, 510)
             setTimeout(()=>{
                 resp.style.opacity = "1"

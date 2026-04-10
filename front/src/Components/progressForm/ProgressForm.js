@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useContext } from "react";
 import { ctx } from "../../App";
-
+import Field2 from "../Field2/Field2";
+import ImgInput2 from "../ImgInput2/ImgInput2";
 export default function ProgressForm() {
 
     //MSG----------------------------
@@ -27,7 +28,7 @@ export default function ProgressForm() {
 
     let nav = useNavigate()
     let [obj, setObj] = useState({
-        name: null,email:null, password: null, role: "admin", cnpj: null, //logo: null,
+        name: null, email: null, password: null, role: "admin", cnpj: null, //logo: null,
         description: null
     })
     let [file, setFile] = useState()
@@ -57,10 +58,10 @@ export default function ProgressForm() {
             body: formData//JSON.stringify(newObj)
         }).then((e) => e.json())
         if (!response.messageerr) {
-            genMsg("Sucesso","cadastro realizado com sucesso",2)
+            genMsg("Sucesso", "cadastro realizado com sucesso", 2)
             nav("/frm3")
-        }else{
-            genMsg("Error","erro ao cadastrar usuário",1)
+        } else {
+            genMsg("Error", "erro ao cadastrar usuário", 1)
         }
         console.log(response)
     }
@@ -146,8 +147,8 @@ export default function ProgressForm() {
             //submitFunc(e)
             printRes()
 
-        }else{
-            genMsg("Error","campos inválidos",1)
+        } else {
+            genMsg("Error", "campos inválidos", 1)
         }
         //console.log(error)
     }
@@ -155,20 +156,24 @@ export default function ProgressForm() {
         <SldInputComp>
             <div id='side1' className={Style.sld}>
                 <div className={Style.ImgFieldCon}>
-                    <ImgInput refId={"userImg2"}
+                    <ImgInput2 refId={"userImg2"}
                         file={file} setFile={setFile} update={true}
                         checkF={checkFile2}
                         error={error}
-                        obj={obj} lab="file" path="http://localhost:4000/uploads/"
-                    ></ImgInput>
+                        obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput2>
                 </div>
-                <Field lab="name" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
-                <Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                <Field2 lab="name" type="text" img="/static/user.png"
+                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                <Field2 lab="password" type="password" img="/static/password_14562503.png"
+                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
             </div>
             <div id='side1' className={Style.sld}>
-                <Field lab="email" type="email" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
-                <Field lab="cnpj" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
-                <Field lab="description" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                <Field2 lab="email" type="email" img="/static/setting.png"
+                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                <Field2 lab="cnpj" type="text" img="/static/id-card.png"
+                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                <Field2 lab="description" type="text" img="/static/clipboard.png"
+                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
             </div>
             <div id='side1' className={Style.sld}>
                 <button onClick={(e) => subs(e)}>submit</button>
@@ -179,4 +184,22 @@ export default function ProgressForm() {
 
 /*
 <Field lab="logo" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+*/
+
+/*
+<div className={Style.ImgFieldCon}>
+                    <ImgInput refId={"userImg2"}
+                        file={file} setFile={setFile} update={true}
+                        checkF={checkFile2}
+                        error={error}
+                        obj={obj} lab="file" path="http://localhost:4000/uploads/"
+                    ></ImgInput>
+                </div>
+<Field lab="name" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+<Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+
+<Field lab="email" type="email" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                <Field lab="cnpj" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                <Field lab="description" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+
 */

@@ -1,0 +1,97 @@
+.FieldCon {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: #1e1e1e;
+    border-radius: 14px;
+    padding: 12px 14px;
+
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+
+.FieldCon:focus-within {
+    border: 1px solid #4da3ff;
+    box-shadow: 0 0 0 2px rgba(77, 163, 255, 0.2);
+}
+
+.error {
+    border: 1px solid #ff4d4d;
+}
+
+.ImgCon {
+    height: 42px;
+    width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ImgCon img {
+    width: 24px;
+    height: 24px;
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+.inputCon {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.inputmainCon {
+    position: relative;
+    width: 100%;
+    height: 44px;
+}
+
+.inputmainCon input {
+    width: 100%;
+    height: 100%;
+    padding: 12px 10px 4px;
+    border: 1px solid #444;
+    border-radius: 8px;
+
+    background: transparent;
+    color: white;
+    font-size: 14px;
+
+    outline: none;
+    transition: 0.25s;
+}
+
+.inputmainCon input:focus {
+    border-color: #4da3ff;
+}
+
+.inputmainCon label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    color: #aaa;
+    font-size: 13px;
+    pointer-events: none;
+
+    transition: 0.25s ease;
+    background: #1e1e1e;
+    padding: 0 4px;
+}
+
+.inputmainCon input:focus + label,
+.inputmainCon input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 11px;
+    color: #4da3ff;
+}
+
+.msgError {
+    font-size: 12px;
+    color: #ff4d4d;
+    padding-left: 4px;
+}

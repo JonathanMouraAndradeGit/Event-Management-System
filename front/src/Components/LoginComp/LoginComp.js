@@ -4,6 +4,7 @@ import Field from "../Field/Field";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ctx } from "../../App";
+import Field2 from "../Field2/Field2";
 export default function LoginComp(props) {
     let msgCtx = useContext(ctx)
 
@@ -134,8 +135,10 @@ export default function LoginComp(props) {
 
                 </div>
                 <form className={Style.sideContentR}>
-                    <Field lab="name" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
-                    <Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                    <Field2 lab="name" type="text" img="/static/user.png"
+                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                    <Field2 lab="password" type="password" img="/static/password_14562503.png"
+                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
                     <a href="/frm1" className={Style.linkCon}>Sing-Up</a>
                     <button onClick={(e) => subs(e)}>submit</button>
                 </form>
@@ -143,3 +146,7 @@ export default function LoginComp(props) {
         </div>
     )
 }
+/*
+<Field lab="name" type="text" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+                    <Field lab="password" type="password" obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field>
+*/
