@@ -35,7 +35,7 @@ export default function ImgInput(props) {
         const hasFile = input.files && input.files.length > 0
 
         if(props.checkF){
-            if (!hasFile) {
+            if (hasFile) {
                 props.checkF(false)
             }else{
                 props.checkF(true)

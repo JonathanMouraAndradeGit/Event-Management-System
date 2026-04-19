@@ -90,9 +90,11 @@ export class EventService {
             if (!event) {
                 throw new Error("Evento não encontrado");
             }
-
+            console.log("subscription date here -----")
+            console.log("res is here => "+idEvent)
+            console.log(user.volunData)
             const isSubscribed = user.volunData.subscription.some(
-                (e) => e.id === idEvent
+                (e) => e.id == idEvent
             );
 
             if (!isSubscribed) {
@@ -100,8 +102,9 @@ export class EventService {
             }
 
             user.volunData.subscription = user.volunData.subscription.filter(
-                (e) => e.id !== idEvent
+                (e) => e.id != idEvent
             );
+
 
             await this.injectValunteer.save(user.volunData);
 

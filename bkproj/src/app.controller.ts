@@ -349,6 +349,8 @@ export class AppController {
       const decoded = await this.jwtService.decode(tok);
       console.log(decoded)
       let resName: any = await this.serv.getUserByName(decoded.name)
+      console.log("unsubscription results here -----------------")
+      console.log(resName)
       let result = await this.eventServ.unsubscribe(resName.id, id) //await this.subscribe(resName.id,id)
       //let res: any = await this.ongserv.getOngByUserName(decoded.name)
       //return await this.eventServ.OngEvent(res.id)

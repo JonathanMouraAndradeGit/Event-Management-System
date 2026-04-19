@@ -2,7 +2,24 @@ import Style from "./UserEventsPage.module.css"
 import React, { useRef, useState } from "react"
 import CalendarInfo from "../CalendarInfo/CalendarInfo"
 import { useEffect } from "react"
+
+import { useContext } from "react";
+import { ctx } from "../../App";
+import { useNavigate } from "react-router-dom";
 export default function UserEventsPage() {
+    let nav = useNavigate()
+    //MSG----------------------------
+    let msgCtx = useContext(ctx)
+    function genMsg(title, description, type) {
+        let dt = new Date().toString()
+        let rdnVal = Math.random().toString()
+        let res = `${dt}${rdnVal}`
+        msgCtx(prev => [
+            ...prev,
+            { id: res, title: title, desc: description, type: type }
+        ])
+    }
+    //--------------------------------
     let dt = new Date()
     let dt2 = new Date(dt.setDate(5))
     //let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 6, 67, 8, 9]
@@ -21,7 +38,7 @@ export default function UserEventsPage() {
     useEffect(() => {
         console.log(obj)
         console.log("date selected")
-        if(obj){
+        if (obj) {
             appyCardStyle(obj.id)
         }
     }, [obj])//[obj["eventDate"]])
@@ -44,7 +61,7 @@ export default function UserEventsPage() {
             setUsrEvent(response)
         }
     }
-    function menageSelection(el){
+    function menageSelection(el) {
         setObj(el)
     }
     function appyCardStyle(idItem) {
@@ -55,7 +72,7 @@ export default function UserEventsPage() {
                 let iditemLst = lst[0].textContent //JSON.parse(lst[0].textContent)
                 //let objDate = new Date(obj)
                 //let comp = compareDates(selectedDT.current, objDate)
-                if (idItem == iditemLst ) {
+                if (idItem == iditemLst) {
                     el.classList.add("selectedLstCard")
                 } else {
                     el.classList.remove("selectedLstCard")
@@ -65,14 +82,47 @@ export default function UserEventsPage() {
             }
         })
     }
+    async function unSubs(obj1) {
+        console.log(obj1)
+        try {
+            let tok = JSON.parse(localStorage.getItem("token"))
+            let response = await fetch(`http://[::1]:4000/subscription/${obj1.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${tok.token}`,
+                },
+                method: "DELETE"
+            }).then((e) => e.json())
+            console.log(response)
+            //if(response){
+            //}
+            if (response.messagerror) {
+                genMsg("Error", response.messagerror, 1)
+            } else {
+                genMsg("Sucesso", "operação realizada com sucesso", 2)
+                //setObj({})
+                //getEvents()
+                //nav("/frm8")
+                window.location.reload();
+            }
+        } catch (e) {
+            console.log(`Error: ${e}`)
+
+            genMsg("Error", "Erro ao realizar operação", 1)
+        }
+    }
     return (
         <div className={Style.Container}>
             <div className={Style.mainDiv}>
-                <div className={`${Style.sideList} ${Style.sideShadow}`} ref={refLstEvents}>
+
+                <div className={`${Style.sideList} ${Style.sideShadow}`}
+                    style={{ visibility: (UserEvent && UserEvent.length > 0) ? 'visible' : 'hidden',
+                        width: (UserEvent && UserEvent.length > 0) ? "30%" : "0px"
+                     }} ref={refLstEvents}>
                     {UserEvent.map((el, i) => {
                         return (
                             <div className={Style.LstItem} key={`userEvent${i}`}
-                            onClick={()=>menageSelection(el)}>
+                                onClick={() => menageSelection(el)}>
                                 <img src={`http://localhost:4000/uploads/${el.file}`} />
                                 {el.title}
                                 <span>{el.id}</span>
@@ -83,7 +133,9 @@ export default function UserEventsPage() {
                     }
                 </div>
 
-                <div className={`${Style.mainCal} ${Style.sideShadow}`}>
+                <div className={`${Style.mainCal} ${Style.sideShadow}`} style={{
+                        width: (UserEvent && UserEvent.length > 0) ? "70%" : "100%"
+                     }}>
                     <CalendarInfo readOnly={false} selectedDt={new Date()}
                         lab="eventDate"
                         dateset={UserEvent}
@@ -93,7 +145,7 @@ export default function UserEventsPage() {
             {(obj && obj.title) && (
                 <div className={`${Style.EventInfo} ${Style.sideShadow}`}>
                     <div className={Style.EventImg}>
-                        <img src={obj && obj.file ? `http://localhost:4000/uploads/${obj.file}` : "/static/citynight.jpg"}/>
+                        <img src={obj && obj.file ? `http://localhost:4000/uploads/${obj.file}` : "/static/citynight.jpg"} />
                     </div>
                     <div className={Style.sideMainC}>
                         <div className={Style.Field}>
@@ -114,6 +166,7 @@ export default function UserEventsPage() {
                                 : "datw"
                             }
                         </div>
+                        <button className={Style.BtnStl} onClick={(e) => unSubs(obj)}>desinscrever</button>
                     </div>
                 </div>
             )}
