@@ -1,7 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { RolesE } from "src/entities/Roles.entity";
 import { UserE } from "src/entities/User.entity";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import { role } from "src/entities/roles";
 import { Jwt } from "jsonwebtoken";
 import { JwtService } from "@nestjs/jwt";
@@ -14,20 +14,53 @@ export class UserServ {
         private jwtService: JwtService) {
 
     }
-    async getUserByName(name:string){
-        try{
+    async getUserByName(name: string) {
+        try {
             console.log("get user by name")
             console.log(name)
-            let res = await this.injectRep.findOneBy({name:name})
+            let res = await this.injectRep.findOneBy({ name: name })
             console.log(res)
-            if(res){
+            if (res) {
                 return res
-            }else{
+            } else {
                 throw new Error("usuário não encontrado")
             }
-        }catch(e){
+        } catch (e) {
             console.log(e)
             return { messageerr: "erro ao buscar usuário" }
+        }
+    }
+    async searchEqual(field, name) {
+        try {
+            let res = await this.injectRep.find({ where: { [field]: name } })
+            console.log("checking results here------------------- //////")
+            console.log(res)
+
+            if (res.length > 0) {
+                return { msgerror: `Erro: ${field} - ${name} já cadastrado` }
+            }
+
+            return false
+        } catch (err) {
+            console.error(err)
+            return { msgerror: "Erro ao consultar banco" }
+        }
+    }
+    async searchIdEqual(field, name,id){
+        try {
+            let res = await this.injectRep.find({ where: { [field]: name,id: Not(id) } })
+            //console.log("checking results here------------------- //////")
+            //console.log(res)
+            //let vl = res.filter(el => el.id != id)
+
+            if (res.length > 0) {
+                return { msgerror: `Erro: ${field} - ${name} já cadastrado` }
+            }
+
+            return false
+        } catch (err) {
+            console.error(err)
+            return { msgerror: "Erro ao consultar banco" }
         }
     }
     async insrtUser(usr: UserDTO) {
@@ -39,9 +72,19 @@ export class UserServ {
         let rol: any = await this.injectrole.find({ where: { typeRole: role[usr.role] } })
         arr.push(rol[0])
         console.log(arr)
+        //------------------------
+        let resE = await this.searchEqual("email", usr.email)
+        let resN = await this.searchEqual("name", usr.name)
+        if (resE) {
+            return resE
+        }
+        if (resN) {
+            return resN
+        }
+        //-----------------------------
         try {
-            let usrc: any = this.injectRep.create({ name: usr.name,email:usr.email, password: usr.password, userRole: arr,file:usr.file })
-            let vol:any = this.injectValunteer.create({userD:usrc,subscription:[]})
+            let usrc: any = this.injectRep.create({ name: usr.name, email: usr.email, password: usr.password, userRole: arr, file: usr.file })
+            let vol: any = this.injectValunteer.create({ userD: usrc, subscription: [] })
             usrc.volunData = vol
             usrc = await this.injectRep.save(usrc)
             return usrc
@@ -53,8 +96,16 @@ export class UserServ {
     async updateUser(usr: UserDTO, id: number) {
         //let role:any = new UserE()
         //role = this.injectrole.create({typeRole:role[usr.role]})
+        //this.searchIdEqual('email', usr.email,id)
+        //------------------------
+        let resE = await this.searchIdEqual('email', usr.email,id)//this.searchEqual("email", usr.email)
+        let resN = await this.searchIdEqual('name', usr.name,id)//this.searchEqual("name", usr.name)
+        
+        if (resE) return resE
+        if (resN) return resN
+        //-----------------------------
         try {
-            let usrArr:any = await this.injectRep.findOneBy({id:id})//.find({ where: { id: id } })
+            let usrArr: any = await this.injectRep.findOneBy({ id: id })//.find({ where: { id: id } })
             let checkName = await this.injectRep.find({ where: { name: usr.name } })
             if (checkName.length > 0) {
                 let isnew = false
@@ -70,15 +121,17 @@ export class UserServ {
             usrArr.name = usr.name ?? usrArr.name;
             usrArr.email = usr.email ?? usrArr.email;
             usrArr.password = usr.password ?? usrArr.password;
-            usrArr.file = usr.file ?? usrArr.file;
+            //usrArr.file = usr.file ?? usrArr.file;
+            usrArr.file = usr.file ? usr.file : usrArr.file
+
             await this.injectRep.save(usrArr)
             //console.log("//////////// this is generating a token with name")
             //console.log(usrArr.name)
-            let newtok = await this.genoken({name:usrArr.name})
-            return {msg:"atualizado com sucesso",token:newtok,file:usrArr.file}
+            let newtok = await this.genoken({ name: usrArr.name })
+            return { msg: "atualizado com sucesso", token: newtok, file: usrArr.file }
         } catch (e) {
             console.log(e)
-            return {msgerror:"erro ao atualizar o usuário"}
+            return { msgerror: "erro ao atualizar o usuário" }
         }
         //let usr = this.injectRep.create({name:usr.name,password:usr.password,usr})
         /*

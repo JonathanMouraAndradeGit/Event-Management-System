@@ -57,11 +57,16 @@ export default function ProgressForm() {
             method: "POST",
             body: formData//JSON.stringify(newObj)
         }).then((e) => e.json())
-        if (!response.messageerr) {
+        if (!response.messageerr && !response.msgerror) {
             genMsg("Sucesso", "cadastro realizado com sucesso", 2)
             nav("/frm3")
         } else {
-            genMsg("Error", "erro ao cadastrar usuário", 1)
+            if(response.msgerror){
+                genMsg("Error",`${response.msgerror}`,1)
+            }else{
+                genMsg("Error","erro ao realizar operação",1)
+            }
+            //genMsg("Error", "erro ao cadastrar usuário", 1)
         }
         console.log(response)
     }

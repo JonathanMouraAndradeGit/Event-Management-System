@@ -53,7 +53,7 @@ export default function FormUser() {
             genMsg("Sucesso", "cadastro realizado com sucesso", 2)
             nav("/frm3")
         } else {
-            genMsg("Error", "erro ao cadastrar usuário", 1)
+            genMsg("Error", `${response.msgerror}`, 1)
         }
         /*
         let response = await fetch("http://[::1]:4000/authck/",{

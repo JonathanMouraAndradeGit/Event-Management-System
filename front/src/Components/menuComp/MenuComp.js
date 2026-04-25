@@ -12,6 +12,9 @@ export default function MenuComp(props) {
         if (props.auth && props.auth.role) {
             setRol(props.auth.role)
             setFil(props.auth.file)
+            //if(props.auth.file && props.auth.file != undefined){
+                //setFil(props.auth.file)
+            //}
         } else {
             setRol('')
         }

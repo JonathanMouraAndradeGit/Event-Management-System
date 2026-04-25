@@ -181,16 +181,25 @@ export default function MenageUser(props) {
         console.log(response)
         if (response.msg) {
             let tok = JSON.parse(localStorage.getItem("token"))
-            let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
+            //let objls = { name: obj.name, role: tok.role, token: response.token}
+            //if(response.file && response.file != undefined){
+                let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
+            //}
             //tok.name = obj.name
             console.log("new local storage is ")
             console.log(objls)
+            console.log(response)
             let tres = JSON.stringify(objls)
             localStorage.setItem("token", tres)
             props.setAuth(objls)
             genMsg("Sucesso","operação realizada com sucesso",2)
         }else{
-            genMsg("Erro","Erro ao realizar operação",1)
+            //genMsg("Erro","Erro ao realizar operação",1)
+            if(response.msgerror){
+                genMsg("Error",`${response.msgerror}`,1)
+            }else{
+                genMsg("Error","erro ao realizar operação",1)
+            }
         }
         getMenageUser()
 
@@ -232,7 +241,11 @@ export default function MenageUser(props) {
         console.log(response)
         if (response.msg) {
             let tok = JSON.parse(localStorage.getItem("token"))
+            //let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
+            //let objls = { name: obj.name, role: tok.role, token: response.token}
+            //if(response.file && response.file != undefined){
             let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
+            //}
             //tok.name = obj.name
             console.log("new local storage is ")
             console.log(objls)
@@ -241,7 +254,11 @@ export default function MenageUser(props) {
             props.setAuth(objls)
             genMsg("Sucesso","operação realizada com sucesso",2)
         }else{
-            genMsg("Error","erro ao realizar operação",1)
+            if(response.msgerror){
+                genMsg("Error",`${response.msgerror}`,1)
+            }else{
+                genMsg("Error","erro ao realizar operação",1)
+            }
         }
         getMenageUser()
 

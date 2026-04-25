@@ -4,7 +4,7 @@ import { UserDTO } from "src/entities/DTO/UserDTO";
 import { OngUser } from "src/entities/Ong.entity";
 import { RolesE } from "src/entities/Roles.entity";
 import { UserE } from "src/entities/User.entity";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import { role } from "src/entities/roles";
 import { OngDTO } from "src/entities/DTO/OngDTO";
 import { UserServ } from "./userServ.service";
@@ -64,7 +64,33 @@ export class OngService {
         return { messageerr: "erro ao inserir ong usuário" }
     }
     }*/
+    async searchEqual(field, name) {
+        try {
+            let res = await this.userRep.find({ where: { [field]: name } })
+            console.log("checking results here------------------- //////")
+            console.log(res)
+
+            if (res.length > 0) {
+                return { msgerror: `Erro: ${field} - ${name} já cadastrado` }
+            }
+
+            return false
+        } catch (err) {
+            console.error(err)
+            return { msgerror: "Erro ao consultar banco" }
+        }
+    }
     async insertOng(obj: UserDTO) {
+        //------------------------
+        let resE = await this.searchEqual("email", obj.email)
+        let resN = await this.searchEqual("name", obj.name)
+        if (resE) {
+            return resE
+        }
+        if (resN) {
+            return resN
+        }
+        //-----------------------------
         try {
             const rol = await this.roleRep.findOneBy({
                 typeRole: role[obj.role]
@@ -76,7 +102,7 @@ export class OngService {
                 name: obj.name,
                 email: obj.email,
                 password: obj.password,
-                file:obj.file,
+                file: obj.file,
                 userRole: [rol],
                 comments: []
             })
@@ -104,7 +130,7 @@ export class OngService {
         try {
             let OngObj: any = this.onge.create({
                 cnpj: obj.cnpj, status: obj.status,
-                description: obj.description, 
+                description: obj.description,
                 //logo: obj.logo, 
                 events: [], userData: usr
             })
@@ -113,7 +139,31 @@ export class OngService {
             return { messageerr: "erro ao inseriri ong" }
         }
     }
+    async searchIdEqual(field, name, id) {
+        try {
+            let res = await this.userRep.find({ where: { [field]: name, id: Not(id) } })
+            //console.log("checking results here------------------- //////")
+            //console.log(res)
+            //let vl = res.filter(el => el.id != id)
+
+            if (res.length > 0) {
+                return { msgerror: `Erro: ${field} - ${name} já cadastrado` }
+            }
+
+            return false
+        } catch (err) {
+            console.error(err)
+            return { msgerror: "Erro ao consultar banco" }
+        }
+    }
     async updateOng(userId: number, obj: UserDTO) {
+        //------------------------
+        let resE = await this.searchIdEqual('email', obj.email, userId)//this.searchEqual("email", usr.email)
+        let resN = await this.searchIdEqual('name', obj.name, userId)//this.searchEqual("name", usr.name)
+
+        if (resE) return resE
+        if (resN) return resN
+        //-----------------------------
         try {
             let usr: any = await this.userRep.findOne({
                 where: { id: userId },
@@ -134,7 +184,7 @@ export class OngService {
             usr.name = obj.name ?? usr.name
             usr.password = obj.password ?? usr.password
             usr.email = obj.email ?? usr.email
-            usr.file = obj.file ?? obj.file
+            usr.file = obj.file ? obj.file : usr.file
 
             ong.cnpj = obj.ongData.cnpj ?? ong.cnpj
             ong.status = obj.ongData.status ?? ong.status
@@ -147,7 +197,7 @@ export class OngService {
             await this.userRep.save(usr)
 
             let newtok = await this.userServ.genoken({ name: usr.name })
-            return { msg: "atualizado com sucesso ", token: newtok,file:usr.file,name:usr.name }
+            return { msg: "atualizado com sucesso ", token: newtok, file: usr.file, name: usr.name }
 
         } catch (e) {
             return { messageerr: "erro ao atualizar ong" }
