@@ -22,6 +22,36 @@ export class EventService {
     ) {
 
     }
+    compareDates(dateA: string | Date, dateB: string | Date): boolean {
+        const d1 = new Date(dateA);
+        const d2 = new Date(dateB);
+
+        return (
+            d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate()
+        );
+    }
+
+    async checkEventDate(userInfo: UserE, even: EventE) {
+        try {
+            const events = await this.event.find({
+                where: { eventVolunteers: userInfo.volunData }
+            });
+
+            const hasSameDate = events.some(ev =>
+                this.compareDates(ev.eventDate, even.eventDate)
+            );
+
+            if (hasSameDate) {
+                return { messageError: "Já está inscrito em um evento nesta data" };
+            }
+
+            return null;
+        } catch (e) {
+            return { messageError: "Erro ao buscar evento" };
+        }
+    }
     async subscribe(idUser: number, idEvent: number) {
         try {
             const user = await this.usrE.findOne({
@@ -41,6 +71,18 @@ export class EventService {
 
             if (!event) {
                 throw new Error("Evento não encontrado");
+            }
+
+            let dt1 = new Date()
+            let dt2 = new Date(event.eventDate)
+            if (dt1 > dt2) {
+                throw new Error("Data do evento expirou");
+            }
+
+            let ced = await this.checkEventDate(user,event)
+
+            if(ced){
+                throw new Error(ced.messageError)
             }
 
             if (!user.volunData.subscription) {
@@ -63,7 +105,7 @@ export class EventService {
 
         } catch (e: any) {
             console.error(e);
-            return { essagerror: e.message };
+            return { messagerror: e.message };
         }
     }
     async unsubscribe(idUser: number, idEvent: number) {
@@ -91,7 +133,7 @@ export class EventService {
                 throw new Error("Evento não encontrado");
             }
             console.log("subscription date here -----")
-            console.log("res is here => "+idEvent)
+            console.log("res is here => " + idEvent)
             console.log(user.volunData)
             const isSubscribed = user.volunData.subscription.some(
                 (e) => e.id == idEvent

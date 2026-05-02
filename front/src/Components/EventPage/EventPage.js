@@ -84,7 +84,12 @@ export default function EventPage() {
             console.log(response)
             //if(response){
             //}
-            genMsg("Sucesso","operação realizada com sucesso",2)
+
+            if(response.messagerror){
+                genMsg("Error",response.messagerror,1)    
+            }else{
+                genMsg("Sucesso","operação realizada com sucesso",2)
+            }
         } catch (e) {
             console.log(`Error: ${e}`)
 
