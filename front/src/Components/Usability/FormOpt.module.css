@@ -1,0 +1,162 @@
+.FormOptContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    /*background: radial-gradient(circle at top, #eef2ff, #f5f7fa);*/
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* leve efeito de luz no fundo */
+.FormOptContainer::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    /*background: #4f8cff33;*/
+    filter: blur(120px);
+    top: -100px;
+    left: -100px;
+    z-index: 0;
+}
+
+.Slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: transform 0.5s ease;
+    left: 0;
+    z-index: 1;
+}
+
+.QuestionCOn {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.QuestionCOn p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #222;
+}
+
+/* opções */
+.SelectionOpts {
+    width: 100%;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 12px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+/* glow animado */
+.SelectionOpts::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, #4f8cff55, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.SelectionOpts:hover::after {
+    opacity: 1;
+}
+
+.SelectionOpts p {
+    margin: 0;
+    font-size: 1rem;
+    color: #444;
+    transition: color 0.2s;
+}
+
+.SelectionOpts:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 10px 25px rgba(79,140,255,0.2);
+}
+
+/* clique */
+.SelectionOpts:active {
+    transform: scale(0.97);
+}
+
+/* selecionado */
+.SelectionOpts:has(input:checked) {
+    border-color: #4f8cff;
+    background: linear-gradient(135deg, #e8f0fe, #f0f4ff);
+    box-shadow: 0 0 15px #4f8cff66, 0 10px 25px rgba(79,140,255,0.25);
+}
+
+/* texto selecionado */
+.SelectionOpts input:checked ~ p {
+    font-weight: bold;
+    color: #1a73e8;
+}
+
+.SelectionOpts > input {
+    display: none;
+}
+
+/* resultado */
+.ResultContent {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* container do percentual */
+.PercentC {
+    height: 50%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* glow no percentual */
+.PercentC::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, #4f8cff55, transparent 70%);
+    filter: blur(40px);
+    z-index: 0;
+}
+
+/* número */
+.PercentCompContainer p {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1a73e8;
+    z-index: 1;
+    text-shadow: 0 0 10px #4f8cff88;
+}
+.OptBox{
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

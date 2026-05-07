@@ -19,6 +19,8 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { MulterModule } from '@nestjs/platform-express';
+import { Usability } from './entities/Usability.entity';
+import { UsabilityService } from './service/UsabilityService.service';
 @Module({
   imports: [
     JwtModule.register({
@@ -46,12 +48,12 @@ import { MulterModule } from '@nestjs/platform-express';
   TypeOrmModule.forRoot({
     type: 'sqlite',
     synchronize: true,
-    entities: [UserE, RolesE, Volunteer, OngUser, EventE, EventComments],
+    entities: [UserE, RolesE, Volunteer, OngUser, EventE, EventComments,Usability],
     database: "sql.db"
   }),
-  TypeOrmModule.forFeature([UserE, RolesE, Volunteer, OngUser, EventE, EventComments])
+  TypeOrmModule.forFeature([UserE, RolesE, Volunteer, OngUser, EventE, EventComments,Usability])
   ],
   controllers: [AppController],
-  providers: [AppService, JwtStrategyCls, authG, EventService, InitServ, OngService, UserServ],
+  providers: [AppService, JwtStrategyCls, authG, EventService, InitServ, OngService, UserServ,UsabilityService],
 })
 export class AppModule { }

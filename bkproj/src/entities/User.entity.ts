@@ -3,6 +3,7 @@ import { RolesE } from "./Roles.entity";
 import { OngUser } from "./Ong.entity";
 import { EventComments } from "./EventComments.entity";
 import { Volunteer } from "./Volunteer.entity";
+import { Usability } from "./Usability.entity";
 @Entity()
 export class UserE {
     @PrimaryGeneratedColumn()
@@ -29,4 +30,7 @@ export class UserE {
     @OneToOne(() => Volunteer, (v) => v.userD, { cascade: true })
     @JoinColumn()
     volunData: Volunteer
+
+    @OneToOne(()=>Usability,(e)=>e.user, { cascade: true })
+    usability:Usability;
 }

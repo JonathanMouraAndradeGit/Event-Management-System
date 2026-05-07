@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom";
 export default function MenuComp(props) {
     let nav = useNavigate()
     let [rol, setRol] = useState('')
-    let [fil,setFil] = useState('')
+    let [fil, setFil] = useState('')
     useEffect(() => {
         console.log(props.auth)
         if (props.auth && props.auth.role) {
             setRol(props.auth.role)
             setFil(props.auth.file)
             //if(props.auth.file && props.auth.file != undefined){
-                //setFil(props.auth.file)
+            //setFil(props.auth.file)
             //}
         } else {
             setRol('')
@@ -66,14 +66,30 @@ export default function MenuComp(props) {
                         <Link to="/frm8">agenda</Link>
                     </div>
                 )}
+                {(rol == 'manager') && (
+                    <div className={Style.menuItem}>
+                        <div className={Style.menuIcon}>
+                            <img src="/static/data-assessment.png"></img>
+                        </div>
+                        <Link to="/usbltres">Results</Link>
+                    </div>
+                )}
+                {(rol == 'user' || rol == 'admin') && (
+                    <div className={Style.menuItem}>
+                        <div className={Style.menuIcon}>
+                            <img src="/static/check.png"></img>
+                        </div>
+                        <Link to="/usblt">Usabilidade</Link>
+                    </div>
+                )}
                 {rol != '' && (
                     <div className={Style.menuItemAc}>
                         <div className={Style.menuIconAc}>
                             <img src={`http://localhost:4000/uploads/${fil}`}></img>
                         </div>
                         <div className={Style.itemsideContent}>
-                            <div className={Style.acItems}><img src="/static/logout.png" onClick={() => logout()}/></div>
-                            <div className={Style.acItems}><Link to="/frm5"><img src="/static/setting.png"/></Link></div>
+                            <div className={Style.acItems}><img src="/static/logout.png" onClick={() => logout()} /></div>
+                            <div className={Style.acItems}><Link to="/frm5"><img src="/static/setting.png" /></Link></div>
                         </div>
                     </div>
                 )}

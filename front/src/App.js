@@ -27,6 +27,9 @@ import { useEffect } from 'react';
 import UpdateEvent from './Components/UpdateEvent/UpdateEvent';
 import 'leaflet/dist/leaflet.css';
 import Main from './Components/Main/Main';
+
+import FormOpt from './Components/Usability/FormOpt';
+import UsabilityPage from './Components/UsabilityPage/UsabilityPage';
 export const ctx = createContext();
 function App() {
   let [userCred, setUserCred] = useState({})
@@ -68,6 +71,10 @@ function App() {
               <Route path='/frm7/:id?' element={<EventPage path="http://localhost:4000/uploads/"></EventPage>}></Route>
 
               <Route path='/frm8' element={<UserEventsPage></UserEventsPage>}></Route>
+
+              <Route path='/usblt' element={<FormOpt></FormOpt>}></Route>
+
+              <Route path='/usbltres' element={<UsabilityPage></UsabilityPage>}></Route>
             </Routes>
           </ctx.Provider>
         </div>

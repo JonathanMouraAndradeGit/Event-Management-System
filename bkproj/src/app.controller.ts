@@ -12,10 +12,13 @@ import { EventCommentsDTO } from './entities/DTO/EventComments';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtService } from '@nestjs/jwt';
 import multer from 'multer';
+import { UsabilityService } from './service/UsabilityService.service';
+import { Usability } from './entities/Usability.entity';
+import { UsabilityDTO } from './entities/DTO/UsabilityDTO';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService, private serv: UserServ, private ongserv: OngService,
-    private eventServ: EventService, private jwtService: JwtService
+    private eventServ: EventService, private jwtService: JwtService,private usabilityServ:UsabilityService
   ) { }
 
   @Post()
@@ -402,4 +405,48 @@ export class AppController {
       return { msgError: "erro ao checar inscricao" }
     }
   }
+
+  //-------------------QUEST
+  //INSERT/UPDATE EVALUATION
+  @Post("injectEvaluation/")
+  async insertUpdt(@Headers("authorization") auth: string, @Body() obj:UsabilityDTO) {
+    try {
+      //console.log(auth)
+      let tok = auth.split(" ")[1]
+      const decoded = await this.jwtService.decode(tok);
+      //console.log(decoded)
+      let resName: any = await this.serv.getUserByName(decoded.name)
+      console.log("recivedobject is ")
+      console.log(obj)
+      console.log(obj.grade)
+      let objublt:Usability = {id:0,user:resName,grade:obj.grade}
+      return await this.usabilityServ.injectGrade(objublt)
+      //let val = await this.eventServ.getAllEventsSubscription(resName.id)
+      //return val
+      //return result
+    } catch (e) {
+      console.log(e)
+      return { msgError: "erro ao realizar operacao" }
+    }
+  }
+
+  //GET EVALUATION AVG
+  @Get("getTotalEvaluation/")
+  async getTotalE(@Headers("authorization") auth: string) {
+    try {
+      //console.log(auth)
+      //let tok = auth.split(" ")[1]
+      //const decoded = await this.jwtService.decode(tok);
+      ///console.log(decoded)
+      //let resName: any = await this.serv.getUserByName(decoded.name)
+      //let objublt:Usability = {id:0,user:resName,grade:obj.grade}
+      return await this.usabilityServ.getTotalAvg()
+      //let val = await this.eventServ.getAllEventsSubscription(resName.id)
+      //return val
+      //return result
+    } catch (e) {
+      return { msgError: "erro ao checar inscricao" }
+    }
+  }
+
 }
