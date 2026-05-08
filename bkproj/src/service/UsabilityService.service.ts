@@ -1,4 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
+import { filter } from "rxjs";
 import { Usability } from "src/entities/Usability.entity";
 import { UserE } from "src/entities/User.entity";
 import { Repository } from "typeorm";
@@ -43,6 +44,14 @@ export class UsabilityService {
                 .select("AVG(usability.grade)", "avg")
                 .getRawOne();
 
+            const above = await this.usblt.find();
+            let numAbove = above.reduce(
+                (count, { grade }) => count + (grade > 50 ? 1 : 0),
+                0
+            );
+            const numBelow = ((above.length - numAbove)*100/above.length);
+            numAbove = (numAbove*100/above.length)
+
             const grades = await this.usblt.find({
                 relations: ["user"],
             });
@@ -55,6 +64,8 @@ export class UsabilityService {
             }));
 
             return {
+                above:numAbove,
+                below:numBelow,
                 avg: Number(result?.avg || 0),
                 evaluations,
             };

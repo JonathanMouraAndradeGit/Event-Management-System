@@ -66,7 +66,7 @@ export default function MenuComp(props) {
                         <Link to="/frm8">agenda</Link>
                     </div>
                 )}
-                {(rol == 'manager') && (
+                {(rol != 'manager') && (
                     <div className={Style.menuItem}>
                         <div className={Style.menuIcon}>
                             <img src="/static/data-assessment.png"></img>

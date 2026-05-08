@@ -66,10 +66,19 @@ export default function UsabilityPage() {
                 )}
             </div>
             <div className={Style.sec2}>
-                <div className={Style.PercentC}>
-                    <PercentComp selc={(obj && obj.avg) ? obj.avg : 0}></PercentComp>
+                <div className={Style.grdCtx}>
+                    <div>
+                        <span>negativas</span>
+                        <PercentComp selc={(obj && obj.below) ? obj.below : 0} typ={1}></PercentComp></div>
+                    <div>
+                        <span>positivas</span>
+                        <PercentComp selc={(obj && obj.above) ? obj.above : 0} typ={2}></PercentComp></div>
+                    <div>
+                        <span>AVG</span>
+                        <PercentComp selc={(obj && obj.avg) ? obj.avg : 0} typ={(obj && obj.avg >= 50) ? 3 : 1}></PercentComp></div>
                 </div>
             </div>
         </div>
     )
 }
+//<div className={Style.PercentC}><PercentComp selc={(obj && obj.avg) ? obj.avg : 0}></PercentComp></div>

@@ -8,7 +8,7 @@
 
 /* container principal */
 .mainC{
-    height: 100%;
+    width: 100%;
     aspect-ratio: 1/1;
     display: flex;
     align-items: center;
@@ -25,14 +25,32 @@
     justify-content: center;
     position: relative;
     border-radius: 50%;
-    
-    /* fundo mais moderno */
+
+    /* cores padrão */
+    --main-color: #4f8cff;
+    --second-color: #00e0ff;
+
     background: radial-gradient(circle at center, #1e1e2f, #0f172a);
-    
-    /* glow externo */
+
     box-shadow: 
-        0 0 40px rgba(79,140,255,0.25),
+        0 0 40px color-mix(in srgb, var(--main-color) 35%, transparent),
         inset 0 0 25px rgba(255,255,255,0.05);
+}
+
+/* temas */
+.labsCOn.red{
+    --main-color: #ff4f6d;
+    --second-color: #ff0000;
+}
+
+.labsCOn.green{
+    --main-color: #00ff99;
+    --second-color: #00c853;
+}
+
+.labsCOn.blue{
+    --main-color: #4f8cff;
+    --second-color: #00e0ff;
 }
 
 /* linhas radiais */
@@ -59,25 +77,27 @@
     right: 0px;
     top: 50%;
     transform: translateY(-50%);
-    
+
     border-radius: 4px;
 
-    /* cor padrão */
     background: linear-gradient(90deg, #444, #888);
-    
+
     transition: all 0.3s ease;
 }
 
-/* selecionado (parte preenchida) */
+/* selecionado */
 .spnstl > span:global(.selection){
-    background: linear-gradient(90deg, #4f8cff, #00e0ff);
-    
-    /* glow */
-    box-shadow: 
-        0 0 6px #4f8cff,
-        0 0 12px #00e0ff,
-        0 0 20px rgba(0,224,255,0.6);
-    
+    background: linear-gradient(
+        90deg,
+        var(--main-color),
+        var(--second-color)
+    );
+
+    box-shadow:
+        0 0 6px var(--main-color),
+        0 0 12px var(--second-color),
+        0 0 20px color-mix(in srgb, var(--second-color) 60%, transparent);
+
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -90,13 +110,114 @@
     color: #e0f2ff;
     z-index: 2;
 
-    /* glow no texto */
+    text-shadow:
+        0 0 10px var(--main-color),
+        0 0 20px var(--second-color);
+}
+
+/* anel interno */
+.labsCOn::after{
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        transparent 60%,
+        rgba(255,255,255,0.05)
+    );
+
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+}
+/*
+.PercentCompContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mainC{
+    width: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.labsCOn{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 50%;
+    
+    background: radial-gradient(circle at center, #1e1e2f, #0f172a);
+    
+    box-shadow: 
+        0 0 40px rgba(79,140,255,0.25),
+        inset 0 0 25px rgba(255,255,255,0.05);
+}
+
+
+.spnstl{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0px 50%;
+    transform: rotateZ(
+        calc(
+            ((360 / var(--tot)) * var(--numb) - 
+            ((360 / var(--tot)) * (var(--tot) / 4)))
+        * 1deg)
+    );
+    width: 49%;
+    height: 2px;
+}
+
+.spnstl > span{
+    position: absolute;
+    height: 6px;
+    width: 20%;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    border-radius: 4px;
+
+    background: linear-gradient(90deg, #444, #888);
+    
+    transition: all 0.3s ease;
+}
+
+.spnstl > span:global(.selection){
+    background: linear-gradient(90deg, #4f8cff, #00e0ff);
+    
+    box-shadow: 
+        0 0 6px #4f8cff,
+        0 0 12px #00e0ff,
+        0 0 20px rgba(0,224,255,0.6);
+    
+    transform: translateY(-50%) scale(1.1);
+}
+
+.mainC > p{
+    position: absolute;
+    font-size: 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    color: #e0f2ff;
+    z-index: 2;
+
     text-shadow: 
         0 0 10px rgba(79,140,255,0.5),
         0 0 20px rgba(0,224,255,0.5);
 }
 
-/* efeito de “anel interno” */
 .labsCOn::after{
     content: "";
     position: absolute;
@@ -108,3 +229,4 @@
     
     box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
 }
+*/
