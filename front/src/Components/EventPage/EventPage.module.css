@@ -162,11 +162,12 @@
 }
 .CommentCOn{
     width: 100%;
-    min-height: 70vh;
     height: fit-content;
     /*border: 2px solid red*/;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

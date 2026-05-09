@@ -4,6 +4,7 @@ import Style from "./ImgInput2.module.css";
 export default function ImgInput2({
     obj,
     lab,
+    //filem,
     path = "",
     refId,
     setFile,
@@ -30,6 +31,13 @@ export default function ImgInput2({
             simpleSet2()
         }
     }, [obj[lab]])
+
+    /*
+    useEffect(()=>{
+        if(!filem){
+            refimg.current.setAttribute('src', `/static/default-image.jpg`);
+        }
+    },filem)*/
 
     function handleFileChange(e) {
         const file = e.target.files?.[0];

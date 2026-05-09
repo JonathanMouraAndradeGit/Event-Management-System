@@ -24,6 +24,8 @@
     flex-direction: column;
     /*border: 2px solid yellow;*/
     overflow-y: scroll !important;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .levelC,:global(.levelCGraf){

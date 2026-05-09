@@ -5,8 +5,11 @@
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
+    background-color: #444;
 }
-
+.ContainerCardUp > *{
+    color: white;
+}
 .imgCon {
     min-height: 30%;
     height: 30%;
@@ -77,7 +80,7 @@
 .topic>.txtDesc {
     font-size: 1vw;
     padding: 5px;
-    background-color: lightgray;
+    background-color: gray;
     border-radius: 2px;
     font-family: Arial;
 }
@@ -103,7 +106,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: transparent;
 }
 .btnItemC > img{
     height: 70%;

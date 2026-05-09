@@ -52,6 +52,7 @@
   max-width: 94vw;
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-y: auto;
 }

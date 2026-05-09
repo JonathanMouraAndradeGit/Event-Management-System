@@ -12,9 +12,11 @@ import CardUp from "../CardUp/CardUp";
 import { useContext } from "react";
 import { ctx } from "../../App";
 
+import Field2 from "../Field2/Field2";
+import ImgInput2 from "../ImgInput2/ImgInput2";
+
 export default function UpdateEvent() {
 
-    //MSG----------------------------
     let msgCtx = useContext(ctx)
     function genMsg(title, description, type) {
         let dt = new Date().toString()
@@ -25,7 +27,6 @@ export default function UpdateEvent() {
             { id: res, title: title, desc: description, type: type }
         ])
     }
-    //--------------------------------
 
     const { id } = useParams();
     let [obj, setObj] = useState({ title: null, description: null, eventDate: null, latlon: null, display: null })//{})
@@ -36,7 +37,6 @@ export default function UpdateEvent() {
 
     let Opeation = useRef(true)
 
-    //ERROR
     let [error, setError] = useState({})
     let valref = useRef(false)
 
@@ -94,8 +94,8 @@ export default function UpdateEvent() {
         console.log(error)
         if (valref.current) {
             subsFunction()
-        }else{
-            genMsg("Error","campos inválidos",1)
+        } else {
+            genMsg("Error", "campos inválidos", 1)
         }
     }
     function subs2(e) {
@@ -105,10 +105,9 @@ export default function UpdateEvent() {
         console.log(error)
         if (valref.current) {
             execUpdate()
-        }else{
-            genMsg("Error","campos inválidos",1)
+        } else {
+            genMsg("Error", "campos inválidos", 1)
         }
-        //console.log(error)
     }
 
     useEffect(() => {
@@ -204,10 +203,10 @@ export default function UpdateEvent() {
             method: "POST",
             body: formData
         }).then((e) => e.json())
-        if(!response.msgError){
-            genMsg("Sucesso","operação realizada com sucesso",2)
-        }else{
-            genMsg("Error",response.msgError,1)
+        if (!response.msgError) {
+            genMsg("Sucesso", "operação realizada com sucesso", 2)
+        } else {
+            genMsg("Error", response.msgError, 1)
         }
 
         console.log("events")
@@ -224,22 +223,27 @@ export default function UpdateEvent() {
             method: "DELETE"
         }).then((e) => e.json())
         if (response.message) {
-            genMsg("Sucesso","evento deletado com sucesso",2)
+            genMsg("Sucesso", "evento deletado com sucesso", 2)
             clearFields()
             getUserEvents()
-        }else{
-            genMsg("Error","erro ao deletar evento",1)
+        } else {
+            genMsg("Error", "erro ao deletar evento", 1)
         }
         console.log(response)
     }
     function updateEventFunction(el) {
+        setFile(false)
         console.log(el)
         setObj(el)
         Opeation.current = false
 
     }
     function clearFields() {
-        setObj({ title: null, description: null, eventDate: null, latlon: null, display: null })
+        setFile(null)
+        setObj(prev => ({ title: null, description: null, eventDate: null, latlon: null, display: null,file:null }))
+        setTimeout(()=>{
+            setObj(prev => ({ title: null, description: null, eventDate: null, latlon: null, display: null }))
+        },50)
         setError({})
         Opeation.current = true
     }
@@ -272,15 +276,89 @@ export default function UpdateEvent() {
         }).then((e) => e.json())
         console.log("events")
         console.log(response)
-        if(!response.messageerr){
-            genMsg("Sucesso","operação realizada com sucesso",2)
-        }else{
-            genMsg("Error",response.messageerr,1)
+        if (!response.messageerr) {
+            genMsg("Sucesso", "operação realizada com sucesso", 2)
+        } else {
+            genMsg("Error", response.messageerr, 1)
         }
         getUserEvents()
     }
     return (
         <div className={Style.ContainerUE}>
+            <div className={Style.ConScroller}>
+                <div className={Style.divCon}>
+                    <div className={Style.SideFrm}>
+                        <div className={Style.SideBox}>
+                            <div className={Style.InputBox}>
+                                <div className={Style.ImgFieldCon}>
+                                    {(!Opeation.current) ? (
+                                        <ImgInput2 refId={"userImg1"}
+                                            file={file} setFile={setFile} update={true}
+                                            obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput2>)
+                                        : (
+                                            <ImgInput2 refId={"userImg1"}
+                                                filem={file} setFile={setFile} update={true}
+                                                checkF={checkFile2}
+                                                error={error}
+                                                obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput2>)
+                                    }
+                                </div>
+                                <Field2 lab="title" type="text" img="/static/check.png"
+                                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                                <Field2 lab="description" type="text" img="/static/clipboard.png"
+                                    obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                                <div>
+                                    {Opeation.current && (
+                                        <button className={Style.btnOps} onClick={(e) => subs1(e)}>Submit</button>)
+                                    }
+                                    {!Opeation.current && (
+                                        <button className={Style.btnOps} onClick={(e) => subs2(e)}>update</button>
+                                    )
+                                    }
+                                </div>
+                                <button className={Style.clearCon}
+                                    onClick={() => clearFields()}>X</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={Style.SideFrm2}>
+                        <div className={Style.SideBox}>
+                            <CalendarSet readOnly={false} selectedDt={new Date()}
+                                lab="eventDate" obj={obj} setVal={setObj}></CalendarSet>
+                        </div>
+                        <div className={Style.SideBox}>
+                            <MapComp
+                                lab="latlon"
+                                lab2="display"
+                                readOnly={false}
+                                obj={obj} setVal={setObj}></MapComp>
+                        </div>
+                    </div>
+                </div>
+                <div className={Style.divCon2}>
+                    <div className={Style.scrollContent}>
+                        <div className={Style.eventLst}>
+                            {event.map((el, i) => {
+                                return (
+                                    <div className={Style.ItemLst} key={i}>
+                                        <CardUp update={() => updateEventFunction(el)}
+                                            delete={() => deleteFunction(el.id)} obj={el}
+                                            path="http://localhost:4000/uploads/"></CardUp>
+
+                                    </div>
+                                )
+                            })
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+/*
+<div className={Style.ContainerUE}>
             <div className={Style.ConScroller}>
                 <div className={Style.divCon}>
                     <div className={Style.SideFrm}>
@@ -351,8 +429,9 @@ export default function UpdateEvent() {
                 </div>
             </div>
         </div>
-    )
-}
+
+
+*/
 /*
 
 <form className={Style.FormContent}>
