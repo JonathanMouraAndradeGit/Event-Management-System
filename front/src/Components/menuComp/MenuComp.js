@@ -50,7 +50,7 @@ export default function MenuComp(props) {
                         <Link to="/frm3">login</Link>
                     </div>)
                 }
-                {rol != '' && (
+                {(rol != '' && rol != "manager") && (
                     <div className={Style.menuItem}>
                         <div className={Style.menuIcon}>
                             <img src="/static/clipboard.png"></img>
@@ -66,7 +66,7 @@ export default function MenuComp(props) {
                         <Link to="/frm8">agenda</Link>
                     </div>
                 )}
-                {(rol != 'manager') && (
+                {(rol == 'manager') && (
                     <div className={Style.menuItem}>
                         <div className={Style.menuIcon}>
                             <img src="/static/data-assessment.png"></img>
@@ -85,11 +85,13 @@ export default function MenuComp(props) {
                 {rol != '' && (
                     <div className={Style.menuItemAc}>
                         <div className={Style.menuIconAc}>
-                            <img src={`http://localhost:4000/uploads/${fil}`}></img>
+                            <img src={(rol == "manager") ? "/static/admin.png" : `http://localhost:4000/uploads/${fil}`}></img>
                         </div>
                         <div className={Style.itemsideContent}>
                             <div className={Style.acItems}><img src="/static/logout.png" onClick={() => logout()} /></div>
-                            <div className={Style.acItems}><Link to="/frm5"><img src="/static/setting.png" /></Link></div>
+                            {(rol != '' && rol != "manager") && ( 
+                                <div className={Style.acItems}><Link to="/frm5"><img src="/static/setting.png" /></Link></div>
+                            )}
                         </div>
                     </div>
                 )}

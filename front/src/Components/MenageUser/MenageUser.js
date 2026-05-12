@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ctx } from "../../App";
 
+import Field2 from "../Field2/Field2";
+import ImgInput2 from "../ImgInput2/ImgInput2";
+
 
 export default function MenageUser(props) {
 
@@ -27,7 +30,7 @@ export default function MenageUser(props) {
     let nav = useNavigate()
     let [rol, setRol] = useState('')
     let [file, setFile] = useState()
-    const [obj, setObj] = useState({ name: null,email:null, password: null, role: "user" })
+    const [obj, setObj] = useState({ name: null, email: null, password: null, role: "user" })
     let [eventLst, setEventLst] = useState([])
 
     //ERROR
@@ -78,8 +81,8 @@ export default function MenageUser(props) {
             //printRes()
             //submit(e)
             DealUpdate(e)
-        }else{
-            genMsg("Error","campos inválidos",1)
+        } else {
+            genMsg("Error", "campos inválidos", 1)
         }
         //console.log(error)
     }
@@ -183,7 +186,7 @@ export default function MenageUser(props) {
             let tok = JSON.parse(localStorage.getItem("token"))
             //let objls = { name: obj.name, role: tok.role, token: response.token}
             //if(response.file && response.file != undefined){
-                let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
+            let objls = { name: obj.name, role: tok.role, token: response.token, file: response.file }
             //}
             //tok.name = obj.name
             console.log("new local storage is ")
@@ -192,13 +195,13 @@ export default function MenageUser(props) {
             let tres = JSON.stringify(objls)
             localStorage.setItem("token", tres)
             props.setAuth(objls)
-            genMsg("Sucesso","operação realizada com sucesso",2)
-        }else{
+            genMsg("Sucesso", "operação realizada com sucesso", 2)
+        } else {
             //genMsg("Erro","Erro ao realizar operação",1)
-            if(response.msgerror){
-                genMsg("Error",`${response.msgerror}`,1)
-            }else{
-                genMsg("Error","erro ao realizar operação",1)
+            if (response.msgerror) {
+                genMsg("Error", `${response.msgerror}`, 1)
+            } else {
+                genMsg("Error", "erro ao realizar operação", 1)
             }
         }
         getMenageUser()
@@ -252,12 +255,12 @@ export default function MenageUser(props) {
             let tres = JSON.stringify(objls)
             localStorage.setItem("token", tres)
             props.setAuth(objls)
-            genMsg("Sucesso","operação realizada com sucesso",2)
-        }else{
-            if(response.msgerror){
-                genMsg("Error",`${response.msgerror}`,1)
-            }else{
-                genMsg("Error","erro ao realizar operação",1)
+            genMsg("Sucesso", "operação realizada com sucesso", 2)
+        } else {
+            if (response.msgerror) {
+                genMsg("Error", `${response.msgerror}`, 1)
+            } else {
+                genMsg("Error", "erro ao realizar operação", 1)
             }
         }
         getMenageUser()
@@ -282,41 +285,57 @@ export default function MenageUser(props) {
     function gotoUpdate(id) {
         nav(`/frm6/${id}`)
     }
+    function checkFile2(val) {
+        if (val) {
+            setError(prev => ({ ...prev, "file": "imagem nao pode ser nulo" }))
+            return false
+        } else {
+            setError(prev => ({ ...prev, "file": "" }))
+            return true
+        }
+    }
     return (
         <div className={Style.MenageUserContainer}>
             <div className={Style.sideContent}>
                 <div className={Style.contentBlock}>
                     <div className={Style.ImgFieldCon}>
-                        <ImgInput refId={"userImg1"}
+                        <ImgInput2 refId={"userImg1"}
                             file={file} setFile={setFile} update={true}
-                            obj={obj} lab="file" path="http://localhost:4000/uploads/"
-                        ></ImgInput>
+                            checkF={checkFile2}
+                            error={error}
+                            obj={obj} lab="file" path="http://localhost:4000/uploads/"></ImgInput2>
                     </div>
-                    <Field lab="name" type="text" obj={obj} setVal={setObj}
-                        error={error} checkF={checkFunction}></Field>
-                    <Field lab="email" type="email" obj={obj} setVal={setObj}
-                        error={error} checkF={checkFunction}></Field>
-                    <Field lab="password" type="password" obj={obj} setVal={setObj}
-                        error={error} checkF={checkFunction}></Field>
-                    <button onClick={(e) => subs(e)}>update</button>
+                    <Field2 lab="name" type="text" img="/static/user.png"
+                        obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                    <Field2 lab="email" type="email" img="/static/setting.png"
+                        obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                    <Field2 lab="password" type="password" img="/static/password_14562503.png"
+                        obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                    <button className={Style.btnOps} onClick={(e) => subs(e)}>update</button>
                 </div>
             </div>
             {rol == 'admin' && (
                 <div className={Style.sideContent}>
                     <div className={Style.contentBlock}>
-                        <Field lab="cnpj" type="text" obj={obj} setVal={setObj}
-                            error={error} checkF={checkFunction}></Field>
-                        <Field lab="description" type="text" obj={obj} setVal={setObj}
-                            error={error} checkF={checkFunction}></Field>
+                        <Field2 lab="cnpj" type="text" img="/static/user.png"
+                            obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
+                        <Field2 lab="description" type="text" img="/static/setting.png"
+                            obj={obj} setVal={setObj} error={error} checkF={checkFunction}></Field2>
                     </div>
-                    <div className={Style.contentBlock}>
+                    <div className={Style.contentBlock2}>
                         <div className={Style.lstStl}>
                             {eventLst.length > 0 && (
                                 eventLst.map((el, i) => {
                                     //console.log(el.file)
                                     return <div key={`lstItemCard${i}`}
                                         className={Style.lstItem} onClick={() => gotoUpdate(el.id)}>
-                                        <img src={`http://localhost:4000/uploads/${el.file}`} /><p>{el.title}</p>
+                                        <img src={`http://localhost:4000/uploads/${el.file}`} />
+                                        <div className={Style.sideEventtxt}>
+                                            <p>{el.title}</p>
+                                            <p>{`${new Date(el.eventDate).getDate()}
+                                            / ${new Date(el.eventDate).getMonth()} /
+                                            ${new Date(el.eventDate).getFullYear()}`}</p>
+                                        </div>
                                     </div>
                                 })
                             )}
@@ -327,6 +346,32 @@ export default function MenageUser(props) {
         </div>
     )
 }
+
+/*
+<ImgInput refId={"userImg1"}
+                            file={file} setFile={setFile} update={true}
+                            obj={obj} lab="file" path="http://localhost:4000/uploads/"
+                        ></ImgInput>
+
+
+
+
+
+
+<Field lab="name" type="text" obj={obj} setVal={setObj}
+                        error={error} checkF={checkFunction}></Field>
+                    <Field lab="email" type="email" obj={obj} setVal={setObj}
+                        error={error} checkF={checkFunction}></Field>
+                    <Field lab="password" type="password" obj={obj} setVal={setObj}
+                        error={error} checkF={checkFunction}></Field>
+
+
+                        <Field lab="cnpj" type="text" obj={obj} setVal={setObj}
+                            error={error} checkF={checkFunction}></Field>
+                        <Field lab="description" type="text" obj={obj} setVal={setObj}
+                            error={error} checkF={checkFunction}></Field>                       
+
+*/
 
 /*
 <Field lab="logo" type="text" obj={obj} setVal={setObj}
