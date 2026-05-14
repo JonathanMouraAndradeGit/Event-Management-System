@@ -1,0 +1,366 @@
+.IntersectComp2Con{
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #05140d 0%,
+            #0a2015 100%
+        );
+
+    overflow: hidden;
+}
+
+/* MAIN ANIMATION CONTAINER */
+.IntersectEl{
+    width: 0%;
+    height: 18vh;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255,255,255,0.04);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.35);
+
+    transition:
+        width 1s ease,
+        height 1s ease 0.8s,
+        border-radius 0.8s ease 1s;
+}
+
+/* EXPAND */
+:global(.IntersectEl2){
+    width: 100% !important;
+    height: 100vh !important;
+
+    border-radius: 0px;
+}
+
+/* LOADING SECTION */
+.sec1ic2{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 2rem 4rem;
+
+    transition:
+        opacity 0.5s ease 1.8s,
+        transform 0.5s ease 1.8s;
+
+    z-index: 3;
+}
+
+.LoadText{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.LoadText > span{
+    font-size: 1rem;
+
+    color:
+        rgba(255,255,255,0.65);
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.LoadText > p{
+    font-size: clamp(1.5rem, 3vw, 3rem);
+
+    color: white;
+
+    font-weight: 800;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.ProgressBox{
+    width: 280px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ProgressBox > p{
+    font-size: clamp(2rem, 4vw, 4rem);
+
+    color: #52ff98;
+
+    font-weight: 900;
+
+    text-align: right;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.ProgressBar{
+    width: 100%;
+    height: 12px;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+
+    background:
+        rgba(255,255,255,0.1);
+}
+
+.ProgressFill{
+    height: 100%;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2cff88,
+            #7dffb0
+        );
+
+    box-shadow:
+        0 0 20px rgba(82,255,152,0.45);
+
+    transition: width 0.3s ease;
+}
+
+/* HIDE LOADING */
+.IntersectEl:global(.IntersectEl2) > .sec1ic2{
+    opacity: 0;
+    transform: translateY(-40px);
+
+    pointer-events: none;
+}
+
+/* HERO SECTION */
+.sec2ic2{
+    position: absolute;
+    inset: 0;
+
+    opacity: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        opacity 1s ease 2s,
+        transform 1s ease 2s;
+
+    transform: scale(1.1);
+}
+
+.IntersectEl:global(.IntersectEl2) > .sec2ic2{
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* BG IMAGE */
+.sec2ic2 > img{
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    filter:
+        brightness(0.45)
+        saturate(1.1);
+
+    z-index: 1;
+}
+
+/* OVERLAY */
+.Overlay{
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,0,0,0.55),
+            rgba(0,0,0,0.2)
+        );
+
+    z-index: 2;
+}
+
+/* CONTENT */
+.ContentHero{
+    position: relative;
+
+    z-index: 3;
+
+    width: 70%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+/* TAG */
+.TagHero{
+    padding: 0.6rem 1.2rem;
+
+    border-radius: 999px;
+
+    background:
+        rgba(82,255,152,0.12);
+
+    border:
+        1px solid rgba(82,255,152,0.25);
+
+    color: #7dffb0;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    backdrop-filter: blur(10px);
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* TITLE */
+.ContentHero > p:nth-of-type(1){
+    width: 75%;
+
+    font-size: 3vw;
+    text-align: left;
+
+    line-height: 1.05;
+
+    font-weight: 900;
+
+    color: white;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* DESCRIPTION */
+.ContentHero > p:nth-of-type(2){
+    width: 60%;
+
+    font-size: 1.1rem;
+    line-height: 1.9;
+
+    color:
+        rgba(255,255,255,0.78);
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* BUTTON */
+.ContentHero > button{
+    margin-top: 1rem;
+
+    padding: 1rem 2rem;
+
+    border: none;
+    outline: none;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2cff88,
+            #52ff98
+        );
+
+    color: #032012;
+
+    font-size: 1rem;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+
+    box-shadow:
+        0 10px 30px rgba(44,255,136,0.3);
+}
+
+.ContentHero > button:hover{
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 18px 40px rgba(44,255,136,0.45);
+}
+
+/* RESPONSIVO */
+@media(max-width: 1000px){
+
+    .sec1ic2{
+        flex-direction: column;
+        gap: 2rem;
+
+        align-items: flex-start;
+    }
+
+    .ProgressBox{
+        width: 100%;
+    }
+
+    .ContentHero{
+        width: 88%;
+    }
+
+    .ContentHero > p:nth-of-type(1){
+        width: 100%;
+    }
+
+    .ContentHero > p:nth-of-type(2){
+        width: 100%;
+    }
+}
+
+@media(max-width: 700px){
+
+    .sec1ic2{
+        padding: 2rem;
+    }
+
+    .ContentHero{
+        width: 90%;
+    }
+
+    .ContentHero > p:nth-of-type(1){
+        font-size: 3rem;
+    }
+
+    .ContentHero > button{
+        width: 100%;
+    }
+}

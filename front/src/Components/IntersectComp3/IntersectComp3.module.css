@@ -1,0 +1,228 @@
+.IntersectComp3Container{
+    width: 100%;
+    min-height: 100vh;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 2rem;
+
+    padding: 5rem 8%;
+
+    /*
+    background:
+        linear-gradient(
+            180deg,
+            #06160f 0%,
+            #0c2417 100%
+        );*/
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+/* efeito de fundo */
+.IntersectComp3Container::before{
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    background:
+        radial-gradient(
+            rgba(82,255,152,0.08),
+            transparent 70%
+        );
+
+    top: -250px;
+    left: -150px;
+
+    border-radius: 50%;
+}
+
+/* CARD */
+.CardCon{
+    position: relative;
+
+    min-height: 380px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    text-align: center;
+
+    gap: 1.2rem;
+
+    padding: 2.5rem 2rem;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255,255,255,0.05);
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25);
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    transition:
+        transform 0.8s ease,
+        opacity 0.8s ease,
+        box-shadow 0.3s ease;
+
+    transform:
+        translateY(80px)
+        rotateY(180deg);
+
+    backface-visibility: hidden;
+}
+
+/* animação */
+:global(.CardCon1){
+    transform:
+        translateY(0px)
+        rotateY(0deg);
+
+    opacity: 1;
+}
+
+/* hover */
+.CardCon:hover{
+    transform:
+        translateY(-10px)
+        rotateY(0deg);
+
+    border-color:
+        rgba(82,255,152,0.35);
+
+    box-shadow:
+        0 25px 50px rgba(0,0,0,0.35);
+}
+
+/* brilho decorativo */
+.CardCon::before{
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    background:
+        radial-gradient(
+            rgba(82,255,152,0.15),
+            transparent 70%
+        );
+
+    top: -100px;
+    right: -100px;
+
+    border-radius: 50%;
+}
+
+/* ICON */
+.IconCard{
+    width: 110px;
+    height: 110px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 24px;
+
+    background:
+        rgba(82,255,152,0.08);
+
+    border:
+        1px solid rgba(82,255,152,0.18);
+}
+
+.IconCard > img{
+    width: 55%;
+    aspect-ratio: 1/1;
+
+    object-fit: contain;
+
+    filter:
+        brightness(0)
+        invert(1);
+}
+
+/* LABEL */
+.CardLabel{
+    font-size: 0.95rem;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+
+    color:
+        rgba(255,255,255,0.65);
+
+    font-weight: 700;
+}
+
+/* NUMBER */
+.CardCon > p{
+    font-size: clamp(2.5rem, 5vw, 5rem);
+
+    font-weight: 900;
+
+    color: #52ff98;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    line-height: 1;
+}
+
+/* TEXT */
+.CardCon > small{
+    width: 90%;
+
+    font-size: 0.95rem;
+    line-height: 1.7;
+
+    color:
+        rgba(255,255,255,0.72);
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* RESPONSIVO */
+@media(max-width: 1200px){
+
+    .IntersectComp3Container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 700px){
+
+    .IntersectComp3Container{
+        grid-template-columns: 1fr;
+
+        padding: 4rem 6%;
+    }
+
+    .CardCon{
+        min-height: 320px;
+    }
+
+    .CardCon > p{
+        font-size: 3.5rem;
+    }
+}
